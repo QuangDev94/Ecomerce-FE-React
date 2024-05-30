@@ -10,7 +10,11 @@ function App() {
         {routes.map((route) => {
           const Layout = route.isShowHeader ? Default : Fragment;
           return (
-            <Route path={route.path} element={<Layout>{route.page}</Layout>} />
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<Layout>{route.page}</Layout>}
+            />
           );
         })}
       </Routes>

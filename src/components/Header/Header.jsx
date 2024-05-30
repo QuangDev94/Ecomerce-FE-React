@@ -35,7 +35,7 @@ const Header = () => {
           <WrapperHeaderAcount>
             <UserOutlined style={{ fontSize: "25px" }} />
             <div>
-              <span style={{ fontSize: "12px" }}>Đăng nhập/Đăng ký</span>
+              <span style={{ fontSize: "12px",whiteSpace: "nowrap" }}>Đăng nhập/Đăng ký</span>
               <div>
                 <span>Tài khoản</span>
                 <CaretDownOutlined />
@@ -44,7 +44,7 @@ const Header = () => {
           </WrapperHeaderAcount>
           <WrapperHeaderCart>
             <ShoppingCartOutlined style={{ fontSize: "25px" }} />
-            <span style={{ fontSize: "12px" }}>Giỏ hàng</span>
+            <span style={{ fontSize: "12px",whiteSpace: "nowrap" }}>Giỏ hàng</span>
           </WrapperHeaderCart>
         </Col>
       </WrapperHeader>
