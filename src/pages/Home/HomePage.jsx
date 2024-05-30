@@ -6,6 +6,7 @@ import slider1 from '../../assets/images/slider1.webp';
 import slider2 from '../../assets/images/slider2.jpg';
 import slider3 from '../../assets/images/slider3.jpg';
 import slider4 from '../../assets/images/slider4.jpg';
+import CardComponent from '../../components/Card/CardComponent';
 
 const HomePage = () => {
   const arr = ['Iphone','Ipad','SamSung']
@@ -22,8 +23,12 @@ const HomePage = () => {
           }
         </WrapperTypeProduct>
       </div>
-      <div style={{padding: '0 120px',backgroundColor: "#efefef"}}>
-        <SliderComponent arrImage={[slider1,slider2,slider3,slider4]}/>
+      <div id='container' style={{padding: '0 120px',backgroundColor: "#efefef",height: "1000px"}}>
+        <SliderComponent arrImage={[slider1,slider2,slider3,slider4]} />
+        <div style={{marginTop:"20px", display: "flex", alignItems: "center", gap: "20px"}}>
+          <CardComponent />
+
+        </div>
       </div>
     </>
   )

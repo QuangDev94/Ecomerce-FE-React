@@ -24,11 +24,11 @@ const Header = () => {
           <Search placeholder="input search text" enterButton />
         </Col>
         <Col
-          span={8}
+          span={7}
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "7px",
+            // gap: "7px",
             justifyContent: "right",
           }}
         >
