@@ -12,6 +12,7 @@ const CardComponent = () => {
       hoverable
       style={{
         width: 200,
+        marginBottom: '15px'
       }}
       bodyStyle={{padding: '10px'}}
       cover={<img alt="example" src={iphonePicture} style={{height: 200}}/>}
