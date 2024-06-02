@@ -1,8 +1,43 @@
 import React from 'react'
+import { WrapperLeftContainer, WrapperRightContainer, WrapperTextLight } from './style'
+import InputForm from '../../components/InputForm/InputForm'
+import ButtonComponent from '../../components/Button/ButtonComponent'
+import { Divider, Image, Input } from 'antd'
+import SignInImage from '../../assets/SignIn-Up/sign-in.png';
+import { WrapperInputForm } from '../../components/InputForm/style'
 
 const SignInPage = () => {
   return (
-    <div>SignInPage</div>
+    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'rgba(0,0,0,0.53)'}}>
+      <div style={{ width: '800px',borderRadius: "8px",background: "#fff", display: 'flex'}}>
+        <WrapperLeftContainer>
+          <h1 style={{fontSize: '26px', margin: '0px'}}>Wellcome</h1>
+          <p style={{fontSize: '14px'}}>Sign-in to your account</p>
+          <InputForm style={{marginBottom: '15px'}} placeholder="abc@gmail.com"/>
+          <WrapperInputForm.Password placeholder="password"/>
+          <ButtonComponent
+              size={20}
+              styleButton={{
+                  background: 'rgb(255,57,69)',
+                  height: '48px',
+                  width: '100%',
+                  border: 'none',
+                  borderRadius: '4px',
+                  margin: '26px 0',
+              }}
+              textButton='Sign In'
+              styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
+          />
+          <WrapperTextLight>Forget password ?</WrapperTextLight>
+          <p style={{fontSize: '14px'}}>Don't have acount ? <WrapperTextLight>Create acount?</WrapperTextLight> </p>
+        </WrapperLeftContainer>
+        <WrapperRightContainer>
+          <Image src={SignInImage} preview={false} height={203} width={203}/>
+          <h4  style={{fontSize: '12px', color: 'rgb(11, 116, 229)', marginBottom: '0'}}>Mua sam tai QuangDev</h4>
+          <p style={{fontSize: '12px', color: 'rgb(11, 116, 229)', margin: '0'}}>Sieu uu dai moi ngay</p>
+        </WrapperRightContainer>
+      </div>
+    </div>
   )
 }
 
