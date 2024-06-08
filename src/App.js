@@ -1,9 +1,22 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./routes";
 import Default from "./components/Default/Default";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 function App() {
+  // useEffect(() => {
+  //   fetchAPI();
+  // }, []);
+  const fetchAPI = async () => {
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/product/get-all`
+    );
+    return res.data;
+  };
+  const query = useQuery({ queryKey: ["todos"], queryFn: fetchAPI });
+  console.log(query);
   return (
     <Router>
       <Routes>

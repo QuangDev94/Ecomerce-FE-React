@@ -7,8 +7,6 @@ import slider2 from '../../assets/images/slider2.jpg';
 import slider3 from '../../assets/images/slider3.jpg';
 import slider4 from '../../assets/images/slider4.jpg';
 import CardComponent from '../../components/Card/CardComponent';
-import NavbarComponent from '../../components/Navbar/NavbarComponent';
-import ButtonComponent from '../../components/Button/ButtonComponent';
 
 const HomePage = () => {
   const arr = ['Iphone','Ipad','SamSung']
@@ -19,7 +17,7 @@ const HomePage = () => {
           {
             arr.map((item) => {
               return (
-                <TypeProductComponent name={item}/>
+                <TypeProductComponent key={item} name={item}/>
               )
             })
           }
