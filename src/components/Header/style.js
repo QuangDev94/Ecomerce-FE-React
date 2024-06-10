@@ -23,6 +23,7 @@ export const WrapperHeaderAcount = styled.div`
   color: #fff;
   gap: 3px;
   padding-left: 10px;
+  cursor: pointer;
 `;
 
 export const WrapperHeaderCart = styled.div`

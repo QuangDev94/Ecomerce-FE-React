@@ -16,7 +16,6 @@ function App() {
     return res.data;
   };
   const query = useQuery({ queryKey: ["todos"], queryFn: fetchAPI });
-  console.log(query);
   return (
     <Router>
       <Routes>

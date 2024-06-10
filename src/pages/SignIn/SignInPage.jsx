@@ -1,35 +1,56 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { WrapperLeftContainer, WrapperRightContainer, WrapperTextLight } from './style'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/Button/ButtonComponent'
-import { Divider, Image, Input } from 'antd'
+import {  Image } from 'antd'
 import SignInImage from '../../assets/SignIn-Up/sign-in.png';
 import { WrapperInputForm } from '../../components/InputForm/style'
+import { useNavigate } from 'react-router-dom';
+import * as UserService from '../../services/UserService';
+import { useMutationHooks } from '../../hooks/useMutationHook'
+import Loading from '../../components/Loading/Loading'
 
 const SignInPage = () => {
+  const navigate = useNavigate();
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+  const mutation = useMutationHooks(data => UserService.loginUser(data));
+  const {data,isPending} = mutation;
+  const signInHandle = () => {
+    mutation.mutate({
+      email,
+      password
+    })
+  };
+
   return (
     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'rgba(0,0,0,0.53)'}}>
       <div style={{ width: '800px',borderRadius: "8px",background: "#fff", display: 'flex'}}>
         <WrapperLeftContainer>
           <h1 style={{fontSize: '26px', margin: '0px'}}>Wellcome</h1>
           <p style={{fontSize: '14px'}}>Sign-in to your account</p>
-          <InputForm style={{marginBottom: '15px'}} placeholder="abc@gmail.com"/>
-          <WrapperInputForm.Password placeholder="password"/>
-          <ButtonComponent
-              size={20}
-              styleButton={{
-                  background: 'rgb(255,57,69)',
-                  height: '48px',
-                  width: '100%',
-                  border: 'none',
-                  borderRadius: '4px',
-                  margin: '26px 0',
-              }}
-              textButton='Sign In'
-              styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
-          />
+          <InputForm style={{marginBottom: '15px'}} placeholder="abc@gmail.com" value={email} onChange={(e) => {setEmail(e.target.value)}}/>
+          <WrapperInputForm.Password placeholder="password" value={password} onChange={(e) => {setPassword(e.target.value)}}/>
+          {data?.status === "ERROR" && <span style={{color: "red",fontSize: "12px",marginTop: "10px"}}>{data?.message}</span>}
+          <Loading spinning={isPending}>
+            <ButtonComponent
+                disabled={!email.length || !password.length}
+                size={20}
+                styleButton={{
+                    background: 'rgb(255,57,69)',
+                    height: '48px',
+                    width: '100%',
+                    border: 'none',
+                    borderRadius: '4px',
+                    margin: '26px 0',
+                }}
+                textButton='Sign In'
+                styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
+                onClick = {signInHandle}
+            />
+          </Loading>
           <WrapperTextLight>Forget password ?</WrapperTextLight>
-          <p style={{fontSize: '14px'}}>Don't have acount ? <WrapperTextLight>Create acount?</WrapperTextLight> </p>
+          <p style={{fontSize: '14px'}}>Don't have acount ? <WrapperTextLight onClick={() => {navigate('/sign-up')}}>Create acount?</WrapperTextLight> </p>
         </WrapperLeftContainer>
         <WrapperRightContainer>
           <Image src={SignInImage} preview={false} height={203} width={203}/>
