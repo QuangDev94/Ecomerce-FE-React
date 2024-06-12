@@ -26,12 +26,11 @@ const SignInPage = () => {
     if (isSuccess) {
       message.success();
       navigate('/');
-      console.log(data);
-      localStorage.setItem("access_token",data?.access_token);
+      localStorage.setItem("access_token",JSON.stringify(data?.access_token));
       if (data?.access_token) {
         const decoded = jwtDecode(data?.access_token);
         if (decoded?.payload?.id) {
-          handleGetDetailsUser(decoded?.payload?.id,data?.access_token)
+          handleGetDetailsUser(decoded?.payload?.id,data?.access_token);
         }
       }
     } else {
@@ -42,7 +41,6 @@ const SignInPage = () => {
   const handleGetDetailsUser = async (id,token) => {
     const res = await UserService.getDetailsUser(id,token);
     dispatch(updateUser({...res.data,access_token: token}));
-    
   }
   const signInHandle = () => {
     mutation.mutate({
