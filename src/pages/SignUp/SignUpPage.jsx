@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { WrapperLeftContainer, WrapperRightContainer, WrapperTextLight } from './style'
 import InputForm from '../../components/InputForm/InputForm'
 import { WrapperInputForm } from '../../components/InputForm/style'
@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import * as UserService from '../../services/UserService';
 import { useMutationHooks } from '../../hooks/useMutationHook'
 import Loading from '../../components/Loading/Loading'
+import * as message from '../../components/Message/Message'
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -16,7 +17,15 @@ const SignUpPage = () => {
   const [password,setPassword] = useState('');
   const [confirmPassword,setConfirmPassword] = useState('');
   const mutation = useMutationHooks(data => UserService.signupUser(data));
-  const {data,isPending} = mutation;
+  const {data,isPending,isSuccess} = mutation;
+  // useEffect(() => {
+  //   if (isSuccess && data?.status === 'OK') {
+  //     message.success();
+  //     navigate('/sign-in');
+  //   } else {
+  //     message.error(data?.message);
+  //   }
+  // },[isSuccess,data])
   const signUpHandle = () => {
     mutation.mutate({
       email,
