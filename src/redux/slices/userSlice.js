@@ -16,10 +16,15 @@ export const userSlice = createSlice({
       state.name = name;
       state.access_token = access_token;
     },
+    resetUser: (state) => {
+      state.email = "";
+      state.name = "";
+      state.access_token = "";
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateUser } = userSlice.actions;
+export const { updateUser, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

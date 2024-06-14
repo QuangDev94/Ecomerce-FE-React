@@ -1,6 +1,7 @@
-import React from "react";
-import { Badge, Col } from "antd";
+import React, { useState } from "react";
+import { Badge, Col, Popover  } from "antd";
 import {
+  WrapperContentPopover,
   WrapperHeader,
   WrapperHeaderAcount,
   WrapperHeaderCart,
@@ -13,12 +14,29 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as UserService from '../../services/UserService';
+import { resetUser } from "../../redux/slices/userSlice";
+import Loading from "../Loading/Loading";
 
 const Header = () => {
+  const [loading,setLoading] = useState(false);
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  console.log(user)
+  const dispatch = useDispatch();
+
+  const LogOutHandle = async () => {
+    setLoading(true);
+    await UserService.logOut();
+    dispatch(resetUser());
+    setLoading(false);
+  }
+  const content = (
+    <div>
+      <WrapperContentPopover onClick={LogOutHandle}>Log out</WrapperContentPopover>
+      <WrapperContentPopover>User Information</WrapperContentPopover>
+    </div>
+  );
   return (
     <div>
       <WrapperHeader>
@@ -37,20 +55,24 @@ const Header = () => {
             justifyContent: "right",
           }}
         >
-          <WrapperHeaderAcount onClick={() => {navigate('/sign-in')}}>
-            <UserOutlined style={{ fontSize: "25px" }} />
-            {user?.name ? (
-              <div>{user?.name}</div>
-            ) : (
-              <div>
-                <span style={{ fontSize: "12px",whiteSpace: "nowrap" }}>Đăng nhập/Đăng ký</span>
-                <div>
-                  <span>Tài khoản</span>
-                  <CaretDownOutlined />
+          <Loading spinning={loading}>
+            <WrapperHeaderAcount>
+              <UserOutlined style={{ fontSize: "25px" }} />
+              {user?.name ? (
+                <Popover placement="bottom" content={content} trigger="click">
+                  <div>{user?.name}</div>
+                </Popover>
+              ) : (
+                <div onClick={() => {navigate('/sign-in')}}>
+                  <span style={{ fontSize: "12px",whiteSpace: "nowrap" }}>Đăng nhập/Đăng ký</span>
+                  <div>
+                    <span>Tài khoản</span>
+                    <CaretDownOutlined />
+                  </div>
                 </div>
-              </div>
-            )}
-          </WrapperHeaderAcount>
+              )}
+            </WrapperHeaderAcount>
+          </Loading>
           <WrapperHeaderCart>
             <Badge count={4} size="small">
               <ShoppingCartOutlined style={{ fontSize: "25px",color: '#fff' }} />

@@ -26,7 +26,6 @@ function App() {
       storageData = JSON.parse(storageData);
       decoded = jwtDecode(storageData);
     }
-    console.log(decoded);
     return { decoded, storageData };
   };
   const handleGetDetailsUser = async (id, token) => {
