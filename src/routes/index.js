@@ -1,3 +1,4 @@
+import AdminPage from "../pages/Admin/AdminPage";
 import HomePage from "../pages/Home/HomePage";
 import NotFoundPage from "../pages/NotFound/NotFoundPage";
 import OrderPage from "../pages/Order/OrderPage";
@@ -25,7 +26,7 @@ export const routes = [
     isShowHeader: true,
   },
   {
-    path: "/:type",
+    path: "/type/:id",
     page: <TypeProductsPage />,
     isShowHeader: true,
   },
@@ -40,7 +41,7 @@ export const routes = [
     isShowHeader: true,
   },
   {
-    path: "/product-detail",
+    path: "/product-detail/:id",
     page: <ProductDetailPage />,
     isShowHeader: true,
   },
@@ -48,6 +49,12 @@ export const routes = [
     path: "/profile-user",
     page: <ProfilePage />,
     isShowHeader: true,
+  },
+  {
+    path: "/system/admin",
+    page: <AdminPage />,
+    isShowHeader: false,
+    isPrivate: true,
   },
   {
     path: "*",

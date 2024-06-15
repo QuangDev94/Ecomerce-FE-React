@@ -5,7 +5,8 @@ import { WrapperDiscountText, WrapperPriceText, WrapperReportText } from './styl
 import tick from '../../assets/ticks/tick.png';
 import iphonePicture from '../../assets/products/iphone1.png';
 
-const CardComponent = () => {
+const CardComponent = (props) => {
+  const {name,type,image,price,rating,countInStock,description,discount,solded} = props;
   const { Meta } = Card;
   return (
     <Card
@@ -18,14 +19,14 @@ const CardComponent = () => {
       cover={<img alt="example" src={iphonePicture} style={{height: 200}}/>}
     >
       <img src={tick} style={{width: 68, height: 14, position: "absolute", top: 183, left: 0}} alt='tick'/>
-      <Meta title="Iphone"/>
+      <Meta title={name}/>
       <WrapperReportText>
-        <span>4.5</span> <StarFilled style={{fontSize: '10px', color: 'yellow'}}/>
-        <span style={{padding: '0 3px'}}>|</span> <span>Solded 1000+</span>
+        <span>{rating}</span> <StarFilled style={{fontSize: '10px', color: 'yellow'}}/>
+        <span style={{padding: '0 3px'}}>|</span> <span>Solded {solded || 1000}+</span>
       </WrapperReportText>
       <WrapperPriceText>
-        1.000.000
-        <WrapperDiscountText>-5%</WrapperDiscountText>
+        {price}$
+        <WrapperDiscountText>-{discount || 5}%</WrapperDiscountText>
       </WrapperPriceText>
     </Card>
   )

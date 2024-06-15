@@ -1,22 +1,26 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./routes";
 import Default from "./components/Default/Default";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { isJsonString } from "./utils.js";
 import { jwtDecode } from "jwt-decode";
 import * as UserService from "./services/UserService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "./redux/slices/userSlice.js";
-import axios from "axios";
+import Loading from "./components/Loading/Loading.jsx";
 
 function App() {
   const dispatch = useDispatch();
-
+  const [isLoading, setIsLoading] = useState(true);
+  const user = useSelector((state) => state.user);
+  console.log(user);
   useEffect(() => {
+    setIsLoading(true);
     const { decoded, storageData } = handleDecoded();
     if (decoded?.payload?.id) {
       handleGetDetailsUser(decoded?.payload?.id, storageData);
     }
+    setIsLoading(false);
   }, []);
 
   const handleDecoded = () => {
@@ -49,21 +53,27 @@ function App() {
       return Promise.reject(error);
     },
   );
+
   return (
-    <Router>
-      <Routes>
-        {routes.map((route) => {
-          const Layout = route.isShowHeader ? Default : Fragment;
-          return (
-            <Route
-              key={route.path}
-              path={route.path}
-              element={<Layout>{route.page}</Layout>}
-            />
-          );
-        })}
-      </Routes>
-    </Router>
+    <Loading spinning={isLoading}>
+      <Router>
+        <Routes>
+          {routes.map((route) => {
+            const Layout = route.isShowHeader ? Default : Fragment;
+            const isCheckAuth = !route.isPrivate || user.isAdmin;
+            console.log("user.isAdmin", user.isAdmin);
+            console.log("isCheckAuth: ", isCheckAuth);
+            return (
+              <Route
+                key={route.path}
+                path={(isCheckAuth && route.path) || "/fsdfsdfsdf"}
+                element={<Layout>{route.page}</Layout>}
+              />
+            );
+          })}
+        </Routes>
+      </Router>
+    </Loading>
   );
 }
 

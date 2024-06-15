@@ -18,4 +18,5 @@ export const WrapperDiscountText = styled.span`
   color: rgb(255, 66, 78);
   font-size: 12px;
   font-weight: 500;
+  margin-left: 5px;
 `;

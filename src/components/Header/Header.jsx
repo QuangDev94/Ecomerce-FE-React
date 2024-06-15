@@ -68,9 +68,9 @@ const Header = () => {
                   <UserOutlined style={{ fontSize: "25px" }} />
                 )
               }
-              {user?.name ? (
+              {user?.email ? (
                 <Popover placement="bottom" content={content} trigger="click">
-                  <div>{user?.name}</div>
+                  <div>{user?.name || user?.email}</div>
                 </Popover>
               ) : (
                 <div onClick={() => {navigate('/sign-in')}}>
