@@ -57,7 +57,17 @@ const Header = () => {
         >
           <Loading spinning={loading}>
             <WrapperHeaderAcount>
-              <UserOutlined style={{ fontSize: "25px" }} />
+              {
+                user?.avatar ? (
+                  <img src={user?.avatar} style={{
+                    height: '40px',
+                    width: '40px',
+                    borderRadius: '50%',
+                    objectFit: 'cover' }}/>
+                ) : (
+                  <UserOutlined style={{ fontSize: "25px" }} />
+                )
+              }
               {user?.name ? (
                 <Popover placement="bottom" content={content} trigger="click">
                   <div>{user?.name}</div>

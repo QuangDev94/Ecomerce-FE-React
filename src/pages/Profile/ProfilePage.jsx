@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { WrapperContent, WrapperHeader, WrapperInput, WrapperLabel } from './style'
+import { WrapperContent, WrapperHeader, WrapperInput, WrapperLabel, WrapperUploadFile } from './style'
 import InputForm from '../../components/InputForm/InputForm';
 import ButtonComponent from '../../components/Button/ButtonComponent';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,9 @@ import { useMutationHooks } from '../../hooks/useMutationHook';
 import * as UserService from '../../services/UserService';
 import Loading from '../../components/Loading/Loading'
 import * as message from '../../components/Message/Message'
+import { UploadOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import { getBase64 } from '../../utils';
 
 const ProfilePage = () => {
     const user =  useSelector((state) => state.user);
@@ -39,23 +42,30 @@ const ProfilePage = () => {
         }
     },[isSuccess]);
 
-    const handleOnchangeName= () => {
+    const handleUpdateName= () => {
         mutation.mutate({id: user?.id,name,access_token: user?.access_token})
     };
-    const handleOnchangeEmail= () => {
+    const handleUpdateEmail= () => {
         mutation.mutate({id: user?.id,email,access_token: user?.access_token})
     }
-    const handleOnchangePhone= () => {
+    const handleUpdatePhone= () => {
         mutation.mutate({id:user?.id, phone: Number(phone),access_token: user?.access_token})
     }
-    const handleOnchangeAddress= () => {
+    const handleUpdateAddress= () => {
         mutation.mutate({id:user?.id, address,access_token: user?.access_token})
     }
-    const handleOnchangeAvatar= () => {
+    const handleUpdateAvatar= () => {
         mutation.mutate({id:user?.id,avatar,access_token: user?.access_token});
 
     }
-
+    const handleOnChangeAvatar = async ({fileList}) => {
+        const file = fileList[0];
+        if (!file?.url && !file?.preview) {
+            file.preview = await getBase64(file?.originFileObj);
+        }
+        setAvatar(file.preview)
+        console.log('avatar: ', avatar)
+    }
     return (
         <div style={{padding: '0 120px'}}>
             <WrapperHeader>User Information</WrapperHeader>
@@ -76,7 +86,7 @@ const ProfilePage = () => {
                             }}
                             textButton='Update'
                             styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
-                            onClick = {handleOnchangeName}
+                            onClick = {handleUpdateName}
                         />
                     </WrapperInput>
                     <WrapperInput>
@@ -94,7 +104,7 @@ const ProfilePage = () => {
                             }}
                             textButton='Update'
                             styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
-                            onClick = {handleOnchangeEmail}
+                            onClick = {handleUpdateEmail}
                         />
                     </WrapperInput>
                     <WrapperInput>
@@ -112,7 +122,7 @@ const ProfilePage = () => {
                             }}
                             textButton='Update'
                             styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
-                            onClick = {handleOnchangePhone}
+                            onClick = {handleUpdatePhone}
                         />
                     </WrapperInput>
                     <WrapperInput>
@@ -130,12 +140,24 @@ const ProfilePage = () => {
                             }}
                             textButton='Update'
                             styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
-                            onClick = {handleOnchangeAddress}
+                            onClick = {handleUpdateAddress}
                         />
                     </WrapperInput>
                     <WrapperInput>
                         <WrapperLabel htmlFor='avatar'>Avatar</WrapperLabel>
-                        <InputForm id='avatar' value={avatar} onChange={(e) => {setAvatar(e.target.value)}}/>
+                        <WrapperUploadFile onChange={handleOnChangeAvatar} maxCount={1}>
+                            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                        </WrapperUploadFile>
+                        {
+                            avatar && (
+                                <img src={avatar} style={{
+                                    height: '60px',
+                                    width: '60px',
+                                    borderRadius: '50%',
+                                    objectFit: 'cover'
+                                }} alt='avatar'/>
+                            )
+                        }
                         <ButtonComponent
                             size={20}
                             styleButton={{
@@ -148,7 +170,7 @@ const ProfilePage = () => {
                             }}
                             textButton='Update'
                             styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
-                            onClick = {handleOnchangeAvatar}
+                            onClick = {handleUpdateAvatar}
                         />
                     </WrapperInput>
                 </WrapperContent>
