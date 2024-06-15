@@ -36,10 +36,7 @@ export const WrapperHeaderCart = styled.div`
 
 export const WrapperContentPopover = styled.p`
   cursor: pointer;
-  padding: 3px 10px;
-  border-radius: 3px;
   &:hover {
-    background: rgb(26, 148, 255);
-    color: #fff;
+    color: rgb(26, 148, 255);
   }
 `;

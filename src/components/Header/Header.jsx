@@ -34,7 +34,7 @@ const Header = () => {
   const content = (
     <div>
       <WrapperContentPopover onClick={LogOutHandle}>Log out</WrapperContentPopover>
-      <WrapperContentPopover>User Information</WrapperContentPopover>
+      <WrapperContentPopover onClick={() => navigate('/profile-user')}>User Information</WrapperContentPopover>
     </div>
   );
   return (
