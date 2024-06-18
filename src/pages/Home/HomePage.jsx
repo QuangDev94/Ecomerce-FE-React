@@ -21,7 +21,7 @@ const HomePage = () => {
     queryFn: fetchAllProduct,
     retry: 3,
     retryDelay: 1000
-  },);
+  });
   console.log(products)
   return (
     <>

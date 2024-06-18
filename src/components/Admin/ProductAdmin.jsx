@@ -3,14 +3,47 @@ import { WrapperHeaderUser } from './style'
 import { Button, Form, Input, Modal } from 'antd'
 import {PlusOutlined} from '@ant-design/icons';
 import TableComponent from '../Table/TableComponent';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined,DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { WrapperUploadFile } from '../../pages/Profile/style';
 import { getBase64 } from '../../utils';
 import * as ProductService from '../../services/ProductService';
 import {useMutationHooks} from '../../hooks/useMutationHook';
 import Loading from '../Loading/Loading';
 import * as message from '../../components/Message/Message';
+import { useQuery } from '@tanstack/react-query';
 
+const renderAction = () => {
+  return (
+    <div>
+      <DeleteOutlined style={{color: 'red',paddingRight: '5px',cursor: 'pointer'}}/>
+      <EditOutlined  style={{color: 'green',paddingLeft: '5px',cursor: 'pointer'}}/>
+    </div>
+  );
+};
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    render: (text) => <a>{text}</a>,
+  },
+  {
+    title: 'Type',
+    dataIndex: 'type',
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price',
+  },
+  {
+    title: 'Rating',
+    dataIndex: 'rating',
+  },
+  {
+    title: 'Action',
+    dataIndex: 'action',
+    render: renderAction
+  },
+];
 const ProductAdmin = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [stateProduct,setStateProduct] = useState({
@@ -85,7 +118,24 @@ const ProductAdmin = () => {
             image: file.preview
           })
       }
-    }
+    };
+
+    // Fetch all product
+    const fetchAllProduct = async () => {
+      const res = await ProductService.getAllProduct();
+
+      return res;
+    };
+    const {isLoading: isLoadingFetchProduct, data: allProduct} = useQuery({
+      queryKey: ['allProduct'],
+      queryFn: fetchAllProduct,
+      retry: 3,
+      retryDelay: 1000
+    });
+    const dataTable = allProduct?.response?.data?.length && 
+    allProduct?.response?.data?.map((product) => {
+      return {...product,key: product._id}
+    });
     return (
         <div>
             <WrapperHeaderUser>Product Manager</WrapperHeaderUser>
@@ -99,7 +149,7 @@ const ProductAdmin = () => {
                     <PlusOutlined style={{fontSize: '50px'}}/>
                 </Button>
             </div>
-            <TableComponent />
+            <TableComponent products={dataTable} columns={columns} isLoading={isLoadingFetchProduct}/>
             <Modal title="Create New Product" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
               <Loading spinning={isPending}>
                 <Form

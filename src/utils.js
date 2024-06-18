@@ -1,5 +1,6 @@
 import ProductAdmin from "./components/Admin/ProductAdmin";
 import UserAdmin from "./components/Admin/UserAdmin";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 export const isJsonString = (data) => {
   try {
