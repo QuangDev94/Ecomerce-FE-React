@@ -87,7 +87,6 @@ const AdminPage = () => {
   const handelOnClick = ({key}) => {
     setPageSelected(key);
   }
-  console.log(pageSelected)
   return (
     <>
       <Header isHiddenSearch isHiddenCart/>

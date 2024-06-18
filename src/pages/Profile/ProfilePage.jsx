@@ -64,7 +64,6 @@ const ProfilePage = () => {
             file.preview = await getBase64(file?.originFileObj);
         }
         setAvatar(file.preview)
-        console.log('avatar: ', avatar)
     }
     return (
         <div style={{padding: '0 120px'}}>

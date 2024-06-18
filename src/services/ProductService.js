@@ -6,3 +6,16 @@ export const getAllProduct = async () => {
   );
   return res.data;
 };
+
+export const createProduct = async (data, access_token) => {
+  const res = await axios.post(
+    `${process.env.REACT_APP_API_URL}/product/create`,
+    data,
+    {
+      headers: {
+        token: `Bearer ${access_token}`,
+      },
+    },
+  );
+  return res.data;
+};
