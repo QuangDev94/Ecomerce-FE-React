@@ -19,7 +19,7 @@ import * as UserService from '../../services/UserService';
 import { resetUser } from "../../redux/slices/userSlice";
 import Loading from "../Loading/Loading";
 
-const Header = () => {
+const Header = ({isHiddenSearch, isHiddenCart}) => {
   const [loading,setLoading] = useState(false);
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -33,19 +33,30 @@ const Header = () => {
   }
   const content = (
     <div>
-      <WrapperContentPopover onClick={LogOutHandle}>Log out</WrapperContentPopover>
       <WrapperContentPopover onClick={() => navigate('/profile-user')}>User Information</WrapperContentPopover>
+      {
+        user?.isAdmin ? (
+          <WrapperContentPopover onClick={() => navigate('/system/admin')}>System Admin</WrapperContentPopover>
+        ) : (
+          <></>
+        )
+      }
+      <WrapperContentPopover onClick={LogOutHandle}>Log out</WrapperContentPopover>
     </div>
   );
   return (
     <div>
-      <WrapperHeader>
+      <WrapperHeader style={{justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' : 'space-around'}}>
         <Col span={4}>
           <WrapperHeaderText>QuangDev</WrapperHeaderText>
         </Col>
-        <Col span={12}>
-          <Search placeholder="input search text" enterButton />
-        </Col>
+        {
+          !isHiddenSearch && (
+            <Col span={12}>
+              <Search placeholder="input search text" enterButton />
+            </Col>
+          )
+        }
         <Col
           span={7}
           style={{
@@ -83,12 +94,16 @@ const Header = () => {
               )}
             </WrapperHeaderAcount>
           </Loading>
-          <WrapperHeaderCart>
-            <Badge count={4} size="small">
-              <ShoppingCartOutlined style={{ fontSize: "25px",color: '#fff' }} />
-            </Badge>
-            <span style={{ fontSize: "12px",whiteSpace: "nowrap" }}>Giỏ hàng</span>
-          </WrapperHeaderCart>
+          {
+            !isHiddenCart && (
+              <WrapperHeaderCart>
+                <Badge count={4} size="small">
+                  <ShoppingCartOutlined style={{ fontSize: "25px",color: '#fff' }} />
+                </Badge>
+                <span style={{ fontSize: "12px",whiteSpace: "nowrap" }}>Giỏ hàng</span>
+              </WrapperHeaderCart>
+            )
+          }
         </Col>
       </WrapperHeader>
     </div>

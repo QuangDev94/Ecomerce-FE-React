@@ -13,7 +13,6 @@ function App() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const user = useSelector((state) => state.user);
-  console.log(user);
   useEffect(() => {
     setIsLoading(true);
     const { decoded, storageData } = handleDecoded();
@@ -61,8 +60,6 @@ function App() {
           {routes.map((route) => {
             const Layout = route.isShowHeader ? Default : Fragment;
             const isCheckAuth = !route.isPrivate || user.isAdmin;
-            console.log("user.isAdmin", user.isAdmin);
-            console.log("isCheckAuth: ", isCheckAuth);
             return (
               <Route
                 key={route.path}
