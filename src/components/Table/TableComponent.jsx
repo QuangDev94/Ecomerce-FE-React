@@ -11,6 +11,7 @@ const TableComponent = (props) => {
             <Table
               columns={columns}
               dataSource={products}
+              {...props}
             />
           </div>
       </Loading>
