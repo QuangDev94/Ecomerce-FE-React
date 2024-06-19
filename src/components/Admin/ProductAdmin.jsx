@@ -69,6 +69,7 @@ const ProductAdmin = () => {
 
     const [isLoadingUpdate,setIsLoadingUpdate] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
     const [stateProduct,setStateProduct] = useState({
       name: '',
       type: '',
@@ -218,6 +219,44 @@ const ProductAdmin = () => {
       setIsLoadingUpdate(false);
   
     },[updateForm,stateProductDetails]);
+
+    // Delete Product
+
+    const [idDeleteProduct,setIdDeleteProduct] = useState();
+
+    const mutationDeleted = useMutationHooks(
+      async (data) => {
+        const { id,access_token} = data;
+        const res = await ProductService.deleteProduct(
+          id,access_token
+        );
+        return res;
+      }
+    );
+
+    const {
+      data:dataDeleted,
+      isPending: isPendingDeleted,
+      isSuccess: isSuccessDeleted,
+      isError: isErrorDeleted
+    } = mutationDeleted;
+
+    const handleDeleteOk = () => {
+      let access_token = localStorage.getItem("access_token");
+      access_token = JSON.parse(access_token);
+      mutationDeleted.mutate({id: idDeleteProduct,access_token});
+    }
+
+    useEffect(() => {
+      if(isSuccessUpdated && dataDeleted?.status === "OK") {
+        message.success();
+        setIsModalDeleteOpen(false);
+        refetch();
+      }
+      if(isErrorDeleted) {
+        message.error();
+      }
+    },[isSuccessDeleted,isErrorDeleted]);
     return (
         <div>
             <WrapperHeaderUser>Product Manager</WrapperHeaderUser>
@@ -258,6 +297,14 @@ const ProductAdmin = () => {
                           image: res?.data?.image,
                         });
                         // updateForm.setFieldsValue(res.data);
+                      }
+                      if(
+                        event.target.parentElement.classList['value'] === 'anticon anticon-delete' ||
+                        event.target.parentElement.classList['value'] === 'anticon anticon-delete' ||
+                        event.target.parentElement.getAttribute("data-icon") === 'delete'
+                      ) {
+                        setIdDeleteProduct(record._id);
+                        setIsModalDeleteOpen(true);
                       }
                     }
                   }
@@ -366,8 +413,9 @@ const ProductAdmin = () => {
                             <img src={stateProduct?.image} style={{
                                 height: '60px',
                                 width: '60px',
-                                borderRadius: '50%',
-                                objectFit: 'cover'
+                                borderRadius: '5px',
+                                objectFit: 'cover',
+                                marginTop: '5px'
                             }} alt='image product'/>
                         )
                       }
@@ -386,7 +434,7 @@ const ProductAdmin = () => {
               </Loading>
             </Modal>
             <DrawerComponent title='Update Product' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="60%" height="fit-content">
-              <Loading spinning={isLoadingUpdate}>
+              <Loading spinning={isLoadingUpdate || isPendingUpdated}>
                 <Form
                     form={updateForm}
                     name="update form"
@@ -479,19 +527,20 @@ const ProductAdmin = () => {
                       name="image"
                       label="Image"
                     >
-                      <WrapperUploadFile onChange={handleOnChangeImageDetails} name="image">
-                          <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                      </WrapperUploadFile>
-                      {
-                        stateProductDetails?.image && (
-                            <img src={stateProductDetails?.image} style={{
-                                height: '60px',
-                                width: '60px',
-                                borderRadius: '50%',
-                                objectFit: 'cover'
-                            }} alt='image product'/>
-                        )
-                      }
+                        <WrapperUploadFile onChange={handleOnChangeImageDetails} name="image">
+                            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                        </WrapperUploadFile>
+                        {
+                          stateProductDetails?.image && (
+                              <img src={stateProductDetails?.image} style={{
+                                  height: '60px',
+                                  width: '60px',
+                                  borderRadius: '5px',
+                                  objectFit: 'cover',
+                                  marginTop: '5px'
+                              }} alt='image product'/>
+                          )
+                        }
                     </Form.Item>
                     <Form.Item
                       wrapperCol={{
@@ -506,6 +555,9 @@ const ProductAdmin = () => {
                 </Form>
               </Loading>
             </DrawerComponent>
+            <Modal title="Delete Product" open={isModalDeleteOpen} onOk={handleDeleteOk} onCancel={() => setIsModalDeleteOpen(false)}>
+              <p>Are you sure delete this product ?</p>
+            </Modal>
         </div>
     )
 }
