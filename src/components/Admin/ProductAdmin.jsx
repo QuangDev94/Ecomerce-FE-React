@@ -42,7 +42,7 @@ const ProductAdmin = () => {
   allProduct?.response?.data?.map((product) => {
     return {...product,key: product._id}
   });
-  
+  //End Fetch all product
 
   const [isLoadingUpdate,setIsLoadingUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -418,7 +418,6 @@ const ProductAdmin = () => {
                         countInStock: res?.data?.countInStock,
                         image: res?.data?.image,
                       });
-                      // updateForm.setFieldsValue(res.data);
                     }
                     if(
                       event.target.parentElement.classList['value'] === 'anticon anticon-delete' ||
