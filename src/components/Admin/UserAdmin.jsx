@@ -69,7 +69,7 @@ const UserAdmin = () => {
     // End Get all user
 
     // Update user
-    // Render Logic when change stateUserDetails
+        // Render Logic when change stateUserDetails
     const [isOpenDrawer,setIsOpenDrawer] = useState(false);
     const [isLoadingUpdate,setIsLoadingUpdate] = useState(false);
     const [updateForm] = Form.useForm();
@@ -88,7 +88,7 @@ const UserAdmin = () => {
         setIsLoadingUpdate(false);
     },[stateUserDetails,updateForm]);
 
-    // Interactive Logic when change input update form
+        // Interactive Logic when change input update form
     const handleOnChangeDetails = (e) => {
         setStateUserDetails({
             ...stateUserDetails,
@@ -106,7 +106,7 @@ const UserAdmin = () => {
         }
     }
 
-    // Interactive Logic when click update button
+        // Interactive Logic when click update button
     const mutationUpdate = useMutationHooks(
         async (data) => {
           const { id,stateUserDetails,access_token} = data;
@@ -128,12 +128,13 @@ const UserAdmin = () => {
         let access_token = localStorage.getItem("access_token");
         access_token = JSON.parse(access_token);
         mutationUpdate.mutate({id: stateUserDetails.id,stateUserDetails,access_token});
+        console.log('mutationUpdate: ',mutationUpdate)
     };
 
     const onUpdateFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    // Render Logic when updated
+        // Render Logic when updated
     useEffect(() => {
         if(isSuccessUpdated && dataUpdated?.status === "OK") {
           message.success();
@@ -145,10 +146,49 @@ const UserAdmin = () => {
         }
       },[isSuccessUpdated,isErrorUpdated]);
     // End Update user
+
+    // Delete User
+    const [idDeleteProduct,setIdDeleteProduct] = useState();
+    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+
+    const mutationDeleted = useMutationHooks(
+        async (data) => {
+            const { id,access_token} = data;
+            const res = await UserService.deleteUser(
+                id,access_token
+            );
+            return res;
+        }
+    );
+
+    const {
+        data:dataDeleted,
+        isSuccess: isSuccessDeleted,
+        isError: isErrorDeleted,
+        isPending: isPendingDeleted,
+    } = mutationDeleted;
+
+    const handleDeleteOk = () => {
+        let access_token = localStorage.getItem("access_token");
+        access_token = JSON.parse(access_token);
+        mutationDeleted.mutate({id: idDeleteProduct,access_token});
+    }
+
+    useEffect(() => {
+        if(isSuccessUpdated && dataDeleted?.status === "OK") {
+            message.success();
+            setIsModalDeleteOpen(false);
+            refetch();
+        }
+        if(isErrorDeleted) {
+            message.error();
+        }
+    },[isSuccessDeleted,isErrorDeleted]);
+
+    // End Delete User
     return (
         <div>
             <WrapperHeaderUser>User Manager</WrapperHeaderUser>
-            
             <TableComponent 
                 data={dataTable} 
                 columns={columns} 
@@ -178,12 +218,19 @@ const UserAdmin = () => {
                               avatar: res?.data?.avatar,
                             });
                           }
+                          if(
+                            event.target.parentElement.classList['value'] === 'anticon anticon-delete' ||
+                            event.target.parentElement.classList['value'] === 'anticon anticon-delete' ||
+                            event.target.parentElement.getAttribute("data-icon") === 'delete'
+                          ) {
+                            setIdDeleteProduct(record._id);
+                            setIsModalDeleteOpen(true);
+                          }
                         }
                       }
                     }
                 }
             />
-
             <DrawerComponent forceRender title='Update User' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="60%" height="fit-content">
                 <Loading spinning={isLoadingUpdate || isPendingUpdated}>
                     <Form
@@ -306,7 +353,11 @@ const UserAdmin = () => {
                     </Form>
                 </Loading>
             </DrawerComponent>
-           
+            <Modal title="Delete Product" open={isModalDeleteOpen} onOk={handleDeleteOk} onCancel={() => setIsModalDeleteOpen(false)}>
+                <Loading spinning={isPendingDeleted}>
+                    <p>Are you sure delete this account ?</p>
+                </Loading>
+            </Modal>
         </div>
     )
 }

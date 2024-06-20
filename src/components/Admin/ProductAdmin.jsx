@@ -362,7 +362,7 @@ const ProductAdmin = () => {
     isError: isErrorDeleted
   } = mutationDeleted;
 
-  const handleDeleteOk = () => {
+  const handleDeleteOk =  () => {
     let access_token = localStorage.getItem("access_token");
     access_token = JSON.parse(access_token);
     mutationDeleted.mutate({id: idDeleteProduct,access_token});
@@ -677,7 +677,9 @@ const ProductAdmin = () => {
             </Loading>
           </DrawerComponent>
           <Modal title="Delete Product" open={isModalDeleteOpen} onOk={handleDeleteOk} onCancel={() => setIsModalDeleteOpen(false)}>
-            <p>Are you sure delete this product ?</p>
+            <Loading spinning={isPendingDeleted}>
+              <p>Are you sure delete this product ?</p>
+            </Loading>
           </Modal>
       </div>
   )
