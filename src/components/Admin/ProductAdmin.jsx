@@ -393,7 +393,7 @@ const ProductAdmin = () => {
               </Button>
           </div>
           <TableComponent 
-            products={dataTable} 
+            data={dataTable} 
             columns={columns} 
             isLoading={isLoadingFetchProduct}
             onRow={
@@ -433,7 +433,7 @@ const ProductAdmin = () => {
               }
             }
           />
-          <Modal title="Create New Product" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+          <Modal forceRender title="Create New Product" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
             <Loading spinning={isPending}>
                 <Form
                   form={createForm}
@@ -555,7 +555,7 @@ const ProductAdmin = () => {
               </Form>
             </Loading>
           </Modal>
-          <DrawerComponent title='Update Product' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="60%" height="fit-content">
+          <DrawerComponent forceRender title='Update Product' isOpen={isOpenDrawer} onClose={() => setIsOpenDrawer(false)} width="60%" height="fit-content">
             <Loading spinning={isLoadingUpdate || isPendingUpdated}>
               <Form
                   form={updateForm}
