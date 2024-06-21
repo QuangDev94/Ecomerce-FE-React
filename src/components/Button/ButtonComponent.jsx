@@ -5,7 +5,7 @@ const ButtonComponent = ({
     size,styleButton,styleTextButton,textButton,...rest
 }) => {
   return (
-    <Button size={size} style={styleButton} {...rest}>
+    <Button size={size} {...rest}>
         <span style={styleTextButton}>{textButton}</span>
     </Button>
   )

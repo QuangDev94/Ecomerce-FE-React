@@ -16,7 +16,7 @@ const CardComponent = (props) => {
         marginBottom: '15px'
       }}
       bodyStyle={{padding: '10px'}}
-      cover={<img alt="example" src={iphonePicture} style={{height: 200}}/>}
+      cover={<img alt="example" src={image} style={{height: 200}}/>}
     >
       <img src={tick} style={{width: 68, height: 14, position: "absolute", top: 183, left: 0}} alt='tick'/>
       <Meta title={name}/>
@@ -25,7 +25,7 @@ const CardComponent = (props) => {
         <span style={{padding: '0 3px'}}>|</span> <span>Solded {solded || 1000}+</span>
       </WrapperReportText>
       <WrapperPriceText>
-        {price}$
+        {price.toLocaleString()}$
         <WrapperDiscountText>-{discount || 5}%</WrapperDiscountText>
       </WrapperPriceText>
     </Card>

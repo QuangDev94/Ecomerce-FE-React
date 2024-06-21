@@ -1,5 +1,5 @@
 import TypeProductComponent from '../../components/TypeProduct/TypeProductComponent'
-import { WrapperButtonMore, WrapperProducts, WrapperTypeProduct } from './style'
+import { WrapperProducts, WrapperTypeProduct } from './style'
 import SliderComponent from '../../components/Slider/SliderComponent'
 import slider1 from '../../assets/images/slider1.webp';
 import slider2 from '../../assets/images/slider2.jpg';
@@ -10,21 +10,25 @@ import * as ProductService from '../../services/ProductService';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import Loading from '../../components/Loading/Loading';
+import { useState } from 'react';
+import { Button, Flex } from 'antd';
 
 const HomePage = () => {
   const arr = ['Iphone','Ipad','SamSung'];
   const searchValue = useSelector((state) => state.product.searchValue);
-  const fetchAllProduct = async (search) => {
-    const res = await ProductService.getAllProduct(search);
-    return res.response.data;
+  const [limitValue,setLimitValue] = useState(8)
+  const fetchAllProduct = async (search,limit) => {
+    const res = await ProductService.getAllProduct(search,limit);
+    return res.response;
   };
-  const {isLoading,data: products} = useQuery({
-    queryKey: ['products', searchValue],
-    queryFn: () => fetchAllProduct(searchValue),
+  const {isLoading,data: products, isPlaceholderData} = useQuery({
+    queryKey: ['products', searchValue,limitValue],
+    queryFn: () => fetchAllProduct(searchValue,limitValue),
     retry: 3,
-    retryDelay: 1000
+    retryDelay: 1000,
+    placeholderData: (prev) => prev
   });
-  console.log('products: ',products)
+  console.log(products)
   return (
     <>
       <div style={{padding: '0 120px'}}>
@@ -43,7 +47,7 @@ const HomePage = () => {
         <Loading spinning={isLoading}>
           <WrapperProducts>
             {
-              products?.map((product) => {
+              products?.data?.map((product) => {
                 return <CardComponent 
                           key={product._id}
                           name={product.name}
@@ -60,22 +64,20 @@ const HomePage = () => {
             }
           </WrapperProducts>
         </Loading>
-        <div style={{marginTop: '15px', display: 'flex', justifyContent: 'center'}}>
-          <WrapperButtonMore 
-            textButton="More" 
-            type="outline"
-            styleButton={{
-              border: '1px solid rgb(11,116,229)',
-              color: 'rgb(11,116,229)',
-              width: '240px',
-              height: '38px',
-              borderRadius: '4px'
-            }}
-            styleTextButton={{
-              fontWeight: '500'
-            }}
-          />
-        </div>
+        <Loading spinning={isPlaceholderData}>
+          <div style={{marginTop: '15px', display: 'flex', justifyContent: 'center'}}>
+          <Flex vertical gap="small" style={{ width: '30%' }}>
+            <Button 
+              type="primary" 
+              block 
+              onClick={() => setLimitValue((prev) => prev + 4)}
+              disabled={products?.total === products?.data?.length || products?.totalPage === 1}
+            >
+              More
+            </Button>
+          </Flex>
+          </div>
+        </Loading>
       {/* < NavbarComponent />  */}
       </div>
     </>

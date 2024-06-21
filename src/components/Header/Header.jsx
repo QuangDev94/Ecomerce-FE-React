@@ -54,7 +54,7 @@ const Header = ({isHiddenSearch, isHiddenCart}) => {
   return (
     <div>
       <WrapperHeader style={{justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' : 'space-around'}}>
-        <Col span={4}>
+        <Col span={4} onClick={() => navigate('/')}>
           <WrapperHeaderText>QuangDev</WrapperHeaderText>
         </Col>
         {
@@ -81,11 +81,14 @@ const Header = ({isHiddenSearch, isHiddenCart}) => {
             <WrapperHeaderAcount>
               {
                 user?.avatar ? (
+                <Popover placement="bottom" content={content} trigger="click">
                   <img src={user?.avatar} style={{
                     height: '40px',
                     width: '40px',
                     borderRadius: '50%',
                     objectFit: 'cover' }}/>
+                </Popover>
+
                 ) : (
                   <UserOutlined style={{ fontSize: "25px" }} />
                 )
