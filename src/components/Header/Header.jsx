@@ -29,6 +29,7 @@ const Header = ({isHiddenSearch, isHiddenCart}) => {
     setLoading(true);
     await UserService.logOut();
     dispatch(resetUser());
+    navigate('/');
     setLoading(false);
   }
   const content = (

@@ -19,11 +19,11 @@ const SignInPage = () => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const mutation = useMutationHooks(data => UserService.loginUser(data));
-  const {data,isPending,isSuccess} = mutation;
+  const {data,isPending,isSuccess,isError} = mutation;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data?.status === "OK") {
       message.success();
       navigate('/');
       localStorage.setItem("access_token",JSON.stringify(data?.access_token));
@@ -33,10 +33,11 @@ const SignInPage = () => {
           handleGetDetailsUser(decoded?.payload?.id,data?.access_token);
         }
       }
-    } else {
+    }
+    if(isError) {
       message.error(data?.message);
     }
-  },[isSuccess,data]);
+  },[isSuccess,data,isError]);
 
   const handleGetDetailsUser = async (id,token) => {
     const res = await UserService.getDetailsUser(id,token);

@@ -17,15 +17,17 @@ const SignUpPage = () => {
   const [password,setPassword] = useState('');
   const [confirmPassword,setConfirmPassword] = useState('');
   const mutation = useMutationHooks(data => UserService.signupUser(data));
-  const {data,isPending,isSuccess} = mutation;
-  // useEffect(() => {
-  //   if (isSuccess && data?.status === 'OK') {
-  //     message.success();
-  //     navigate('/sign-in');
-  //   } else {
-  //     message.error(data?.message);
-  //   }
-  // },[isSuccess,data])
+  const {data,isPending,isSuccess,isError} = mutation;
+  
+  useEffect(() => {
+    if (isSuccess && data?.status === 'OK') {
+      message.success();
+      navigate('/sign-in');
+    } 
+    if(isError) {
+      message.error(data?.message);
+    }
+  },[isSuccess,data,isError]);
   const signUpHandle = () => {
     mutation.mutate({
       email,
