@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as UserService from '../../services/UserService';
 import { resetUser } from "../../redux/slices/userSlice";
 import Loading from "../Loading/Loading";
+import { searchProduct } from "../../redux/slices/productSlice";
 
 const Header = ({isHiddenSearch, isHiddenCart}) => {
   const [loading,setLoading] = useState(false);
@@ -31,7 +32,12 @@ const Header = ({isHiddenSearch, isHiddenCart}) => {
     dispatch(resetUser());
     navigate('/');
     setLoading(false);
-  }
+  };
+
+  const handleSearch = (value, _e, info) => {
+    dispatch(searchProduct(value));
+  };
+
   const content = (
     <div>
       <WrapperContentPopover onClick={() => navigate('/profile-user')}>User Information</WrapperContentPopover>
@@ -54,7 +60,11 @@ const Header = ({isHiddenSearch, isHiddenCart}) => {
         {
           !isHiddenSearch && (
             <Col span={12}>
-              <Search placeholder="input search text" enterButton />
+              <Search 
+                placeholder="input search text" 
+                enterButton
+                onSearch={handleSearch}
+              />
             </Col>
           )
         }
