@@ -46,7 +46,6 @@ const ProductAdmin = () => {
 
   const [isLoadingUpdate,setIsLoadingUpdate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [stateProduct,setStateProduct] = useState({
     name: '',
     type: '',
@@ -344,6 +343,7 @@ const ProductAdmin = () => {
   // Delete Product
 
   const [idDeleteProduct,setIdDeleteProduct] = useState();
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
   const mutationDeleted = useMutationHooks(
     async (data) => {
@@ -362,23 +362,70 @@ const ProductAdmin = () => {
     isError: isErrorDeleted
   } = mutationDeleted;
 
-  const handleDeleteOk =  () => {
+  const handleDeleteProduct =  () => {
     let access_token = localStorage.getItem("access_token");
     access_token = JSON.parse(access_token);
     mutationDeleted.mutate({id: idDeleteProduct,access_token});
   }
 
   useEffect(() => {
-    if(isSuccessUpdated && dataDeleted?.status === "OK") {
+    if(isSuccessDeleted && dataDeleted?.status === "OK") {
       message.success();
-      setIsModalDeleteOpen(false);
       refetch();
+      setIdDeleteProduct('');
+      setIsModalDeleteOpen(false);
+      console.log('delete done')
     }
     if(isErrorDeleted) {
       message.error();
     }
-  },[isSuccessDeleted,isErrorDeleted]);
+  },[isSuccessDeleted,isErrorDeleted,isPendingDeleted]);
 
+  // Delete many
+  const [selectionKeys,setSelectionKeys] = useState([]);
+  const [isModalDeleteManyOpen,setIsModalDeleteManyOpen] = useState(false);
+  const rowSelection = {
+    onChange: (selectedRowKeys) => {
+      setSelectionKeys(selectedRowKeys)
+    }
+  };
+
+  const mutationDeleteMany = useMutationHooks(
+    async (data) => {
+      const { ids,access_token} = data;
+      const res = await ProductService.deleteManyProduct(
+        ids,access_token
+      );
+      return res;
+    }
+  );
+  const {
+    data: deletedMany,
+    isPending: isPendingProductMany,
+    isSuccess: isSuccessProductMany,
+    isError: isErrorProductMany
+  } = mutationDeleteMany;
+
+  const handleDeleteProductMany = () => {
+    setIsModalDeleteManyOpen(true);
+  };
+
+  const handleDeleteManyOk = () => {
+    let access_token = localStorage.getItem("access_token");
+    access_token = JSON.parse(access_token);
+    mutationDeleteMany.mutate({ids: selectionKeys,access_token})
+  }
+  useEffect(() => {
+    if(isSuccessProductMany && deletedMany?.status === "OK") {
+      message.success();
+      setIsModalDeleteManyOpen(false);
+      setSelectionKeys([]);
+      refetch();
+    }
+    if(isErrorProductMany) {
+      message.error();
+    }
+  },[isSuccessDeleted,isErrorProductMany,isPendingProductMany]);
   return (
       <div>
           <WrapperHeaderUser>Product Manager</WrapperHeaderUser>
@@ -392,7 +439,35 @@ const ProductAdmin = () => {
                   <PlusOutlined style={{fontSize: '50px'}}/>
               </Button>
           </div>
-          <TableComponent 
+          {
+            selectionKeys?.length > 0 && (
+              <>
+                <div 
+                  style={{
+                    background: '#df4848',
+                    color: '#fff',
+                    fontSize: '14px',
+                    width: '140px',
+                    padding: '10px',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                    borderRadius: '5px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={handleDeleteProductMany}
+                >
+                  Delete all selected
+                </div>
+                <Modal title="Delete Many Product" open={isModalDeleteManyOpen} onOk={handleDeleteManyOk} onCancel={() => setIsModalDeleteManyOpen(false)}>
+                  <Loading spinning={isPendingProductMany}>
+                    <p>Are you sure delete many selected products ?</p>
+                  </Loading>
+                </Modal>
+              </>
+            )
+          }
+          <TableComponent
+            rowSelection={rowSelection}
             data={dataTable} 
             columns={columns} 
             isLoading={isLoadingFetchProduct}
@@ -676,7 +751,7 @@ const ProductAdmin = () => {
               </Form>
             </Loading>
           </DrawerComponent>
-          <Modal title="Delete Product" open={isModalDeleteOpen} onOk={handleDeleteOk} onCancel={() => setIsModalDeleteOpen(false)}>
+          <Modal title="Delete Product" open={isModalDeleteOpen} onOk={handleDeleteProduct} onCancel={() => setIsModalDeleteOpen(false)}>
             <Loading spinning={isPendingDeleted}>
               <p>Are you sure delete this product ?</p>
             </Loading>

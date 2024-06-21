@@ -175,7 +175,7 @@ const UserAdmin = () => {
     }
 
     useEffect(() => {
-        if(isSuccessUpdated && dataDeleted?.status === "OK") {
+        if(isSuccessDeleted && dataDeleted?.status === "OK") {
             message.success();
             setIsModalDeleteOpen(false);
             refetch();
@@ -183,7 +183,7 @@ const UserAdmin = () => {
         if(isErrorDeleted) {
             message.error();
         }
-    },[isSuccessDeleted,isErrorDeleted]);
+    },[isSuccessDeleted,isErrorDeleted,isPendingDeleted]);
 
     // End Delete User
     return (

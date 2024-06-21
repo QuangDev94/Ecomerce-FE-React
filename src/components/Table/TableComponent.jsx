@@ -5,6 +5,7 @@ import Loading from '../Loading/Loading';
 
 const TableComponent = (props) => {
     const {selectionType="checkbox",data=[],isLoading=false,columns} = props;
+    
     return (
       <Loading spinning={isLoading}>
           <div style={{marginTop: '10px'}}>
