@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import NavbarComponent from "../../components/Navbar/NavbarComponent";
 import CardComponent from "../../components/Card/CardComponent";
 import { Col, Pagination, Row } from "antd";
@@ -9,23 +9,23 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "../../components/Loading/Loading";
 
 const TypeProductsPage = () => {
+  const limit = 5;
+  const [page, setPage] = useState(0);
   const { state } = useLocation();
-  const fetchProductType = async (type) => {
-    const res = await ProductService.getProductType(type);
+  const fetchProductType = async (type, page, limit) => {
+    const res = await ProductService.getProductType(type, page, limit);
     return res.response;
   };
-  const {
-    isLoading,
-    data: products,
-    isPlaceholderData,
-  } = useQuery({
-    queryKey: ["products", state],
-    queryFn: () => fetchProductType(state),
+  const { isLoading, data: products } = useQuery({
+    queryKey: ["products", state, page, limit],
+    queryFn: () => fetchProductType(state, page, limit),
     retry: 3,
     retryDelay: 1000,
-    placeholderData: (prev) => prev,
   });
-  console.log(products);
+  const onChangePagination = (current) => {
+    setPage(current - 1);
+  };
+
   return (
     <Loading spinning={isLoading}>
       <Row
@@ -61,12 +61,14 @@ const TypeProductsPage = () => {
           </WrapperProductsType>
           <Pagination
             defaultCurrent={1}
-            total={50}
+            pageSize={limit}
+            total={products?.total}
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
+            onChange={onChangePagination}
           />
         </Col>
       </Row>
