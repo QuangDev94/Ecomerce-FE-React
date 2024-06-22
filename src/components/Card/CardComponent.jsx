@@ -3,7 +3,6 @@ import { Card } from 'antd'
 import { StarFilled } from '@ant-design/icons'
 import { WrapperDiscountText, WrapperPriceText, WrapperReportText } from './style';
 import tick from '../../assets/ticks/tick.png';
-import iphonePicture from '../../assets/products/iphone1.png';
 import { useNavigate } from "react-router-dom";
 
 const CardComponent = (props) => {
@@ -29,7 +28,7 @@ const CardComponent = (props) => {
         <span style={{padding: '0 3px'}}>|</span> <span>Solded {solded || 1000}+</span>
       </WrapperReportText>
       <WrapperPriceText>
-        {price.toLocaleString()}$
+        {price?.toLocaleString()}$
         <WrapperDiscountText>-{discount || 5}%</WrapperDiscountText>
       </WrapperPriceText>
     </Card>
