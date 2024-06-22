@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { WrapperHeaderUser } from './style'
-import { Button, Form, Input, Modal, Space } from 'antd'
+import { Button, Divider, Form, Input, Modal, Select, Space } from 'antd'
 import {PlusOutlined} from '@ant-design/icons';
 import TableComponent from '../Table/TableComponent';
 import { UploadOutlined,DeleteOutlined, EditOutlined,SearchOutlined } from '@ant-design/icons';
@@ -24,11 +24,15 @@ const renderAction = () => {
 
 
 const ProductAdmin = () => {
-  // Fetch all product
+  // Fetch all product and type
   const fetchAllProduct = async () => {
     const res = await ProductService.getAllProduct();
 
     return res;
+  };
+  const fetchAllType = async () => {
+    const res = await ProductService.getAllTypeProduct();
+    return res.data;
   };
   const {isLoading: isLoadingFetchProduct, data: allProduct,refetch} = useQuery({
     queryKey: ['allProduct'],
@@ -38,34 +42,18 @@ const ProductAdmin = () => {
     refetchInterval: 0,
     refetchOnWindowFocus: true,
   });
+  const {isLoading: isLoadingType,data: types} = useQuery({
+    queryKey: ['type'],
+    queryFn: fetchAllType,
+    retry: 3,
+    retryDelay: 1000
+  });
   const dataTable = allProduct?.response?.data?.length && 
   allProduct?.response?.data?.map((product) => {
     return {...product,key: product._id}
   });
-  //End Fetch all product
+  //End Fetch all product and type
 
-  const [isLoadingUpdate,setIsLoadingUpdate] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [stateProduct,setStateProduct] = useState({
-    name: '',
-    type: '',
-    price: '',
-    rating: '',
-    countInStock: '',
-    description: '',
-    image: '',
-  });
-  const [stateProductDetails,setStateProductDetails] = useState({
-    id: '',
-    name: '',
-    type: '',
-    price: '',
-    rating: '',
-    countInStock: '',
-    description: '',
-    image: '',
-  });
-  const [isOpenDrawer,setIsOpenDrawer] = useState(false);
   // Search column
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
@@ -210,8 +198,19 @@ const ProductAdmin = () => {
     },
   ];
   // End Search column
+
+  // Create Product
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [stateProduct,setStateProduct] = useState({
+    name: '',
+    type: '',
+    price: '',
+    rating: '',
+    countInStock: '',
+    description: '',
+    image: '',
+  });
   const [createForm] = Form.useForm();
-  const [updateForm] = Form.useForm();
 
   const mutation = useMutationHooks(
     async (data) => {
@@ -222,24 +221,8 @@ const ProductAdmin = () => {
       return res;
     }
   );
+
   const {data,isPending,isSuccess,isError} = mutation;
-
-  const mutationUpdate = useMutationHooks(
-    async (data) => {
-      const { id,access_token,stateProductDetails} = data;
-      const res = await ProductService.updateProduct(
-        id,stateProductDetails,access_token
-      );
-      return res;
-    }
-  );
-
-  const {
-    data:dataUpdated,
-    isPending: isPendingUpdated,
-    isSuccess: isSuccessUpdated,
-    isError: isErrorUpdated
-  } = mutationUpdate;
 
   useEffect(() => {
     if(isSuccess && data?.status === "OK") {
@@ -262,17 +245,6 @@ const ProductAdmin = () => {
     }
   },[isSuccess,isError])
 
-  useEffect(() => {
-    if(isSuccessUpdated && dataUpdated?.status === "OK") {
-      message.success();
-      setIsOpenDrawer(false);
-      refetch();
-    }
-    if(isErrorUpdated) {
-      message.error();
-    }
-  },[isSuccessUpdated,isErrorUpdated]);
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -290,24 +262,18 @@ const ProductAdmin = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const onUpdateFinish = (values) => {
-    let access_token = localStorage.getItem("access_token");
-    access_token = JSON.parse(access_token);
-    mutationUpdate.mutate({id: stateProductDetails.id,stateProductDetails,access_token});
-  };
-  const onUpdateFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  
   const handleOnChange = (e) => {
     setStateProduct({
       ...stateProduct,
       [e.target.name] : e.target.value
     });
   }
-  const handleOnChangeDetails = (e) => {
-    setStateProductDetails({
-      ...stateProductDetails,
-      [e.target.name] : e.target.value
+  
+  const handleOnChangeType = (value) => {
+    setStateProduct({
+      ...stateProduct,
+      type : value
     });
   }
   const handleOnChangeImage = async ({fileList}) => {
@@ -321,6 +287,90 @@ const ProductAdmin = () => {
     }
   };
 
+    // Handle Select Type
+  const [items, setItems] = useState(types);
+  const [newType, setNewType] = useState('');
+  const inputRef = useRef(null);
+  const onNameChange = (event) => {
+    setNewType(event.target.value);
+  };
+  const addItem = (e) => {
+    e.preventDefault();
+    if(newType) {
+      setItems([...items, newType]);
+      setNewType('');
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    }
+    return
+  };
+    // End Handle Select Type
+  // End Create Product
+
+  // Update Product
+  const [isOpenDrawer,setIsOpenDrawer] = useState(false);
+  const [isLoadingUpdate,setIsLoadingUpdate] = useState(false);
+  const [stateProductDetails,setStateProductDetails] = useState({
+    id: '',
+    name: '',
+    type: '',
+    price: '',
+    rating: '',
+    countInStock: '',
+    description: '',
+    image: '',
+  });
+  const [updateForm] = Form.useForm();
+
+  const mutationUpdate = useMutationHooks(
+    async (data) => {
+      const { id,access_token,stateProductDetails} = data;
+      const res = await ProductService.updateProduct(
+        id,stateProductDetails,access_token
+      );
+      return res;
+    }
+  );
+
+  const {
+    data:dataUpdated,
+    isPending: isPendingUpdated,
+    isSuccess: isSuccessUpdated,
+    isError: isErrorUpdated
+  } = mutationUpdate;
+
+  useEffect(() => {
+    updateForm.setFieldsValue(stateProductDetails);
+    setIsLoadingUpdate(false);
+
+  },[updateForm,stateProductDetails]);
+
+  useEffect(() => {
+    if(isSuccessUpdated && dataUpdated?.status === "OK") {
+      message.success();
+      setIsOpenDrawer(false);
+      refetch();
+    }
+    if(isErrorUpdated) {
+      message.error();
+    }
+  },[isSuccessUpdated,isErrorUpdated]);
+
+  const onUpdateFinish = (values) => {
+    let access_token = localStorage.getItem("access_token");
+    access_token = JSON.parse(access_token);
+    mutationUpdate.mutate({id: stateProductDetails.id,stateProductDetails,access_token});
+  };
+  const onUpdateFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+  const handleOnChangeDetails = (e) => {
+    setStateProductDetails({
+      ...stateProductDetails,
+      [e.target.name] : e.target.value
+    });
+  }
   const handleOnChangeImageDetails = async ({fileList}) => {
     const file = fileList[0];
     if (!file?.url && !file?.preview) {
@@ -331,14 +381,7 @@ const ProductAdmin = () => {
         })
     }
   };
-
-  
-  // Update Product
-  useEffect(() => {
-    updateForm.setFieldsValue(stateProductDetails);
-    setIsLoadingUpdate(false);
-
-  },[updateForm,stateProductDetails]);
+  // End Update Product
 
   // Delete Product
 
@@ -374,12 +417,12 @@ const ProductAdmin = () => {
       refetch();
       setIdDeleteProduct('');
       setIsModalDeleteOpen(false);
-      console.log('delete done')
     }
     if(isErrorDeleted) {
       message.error();
     }
   },[isSuccessDeleted,isErrorDeleted,isPendingDeleted]);
+  // End Delete Product
 
   // Delete many
   const [selectionKeys,setSelectionKeys] = useState([]);
@@ -426,6 +469,7 @@ const ProductAdmin = () => {
       message.error();
     }
   },[isSuccessDeleted,isErrorProductMany,isPendingProductMany]);
+  // End Delete many
   return (
       <div>
           <WrapperHeaderUser>Product Manager</WrapperHeaderUser>
@@ -546,8 +590,43 @@ const ProductAdmin = () => {
                         message: 'Please input your type product!',
                       },
                     ]}
-                  >
-                    <Input value={stateProduct.type} name='type' onChange={handleOnChange}/>
+                  >  
+                    <Select
+                      name="type"
+                      onChange={handleOnChangeType}
+                      dropdownRender={(menu) => (
+                        <>
+                          {menu}
+                          <Divider
+                            style={{
+                              margin: '8px 0',
+                            }}
+                          />
+                          <Space
+                            style={{
+                              padding: '0 8px 4px',
+                            }}
+                          >
+                            <Input
+                              placeholder="Please enter item"
+                              ref={inputRef}
+                              value={newType}
+                              onChange={onNameChange}
+                              onKeyDown={(e) => e.stopPropagation()}
+                            />
+                            <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                              Add new type
+                            </Button>
+                          </Space>
+                        </>
+                      )}
+                      options={
+                        items?.map((item) => ({
+                          label: item,
+                          value: item,
+                        }))
+                      }
+                    />
                   </Form.Item>
                   <Form.Item
                     label="Price"

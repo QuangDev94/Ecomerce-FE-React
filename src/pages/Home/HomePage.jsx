@@ -10,17 +10,21 @@ import * as ProductService from '../../services/ProductService';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import Loading from '../../components/Loading/Loading';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Flex } from 'antd';
 
 const HomePage = () => {
-  const arr = ['Iphone','Ipad','SamSung'];
   const searchValue = useSelector((state) => state.product.searchValue);
   const [limitValue,setLimitValue] = useState(8)
   const fetchAllProduct = async (search,limit) => {
     const res = await ProductService.getAllProduct(search,limit);
     return res.response;
   };
+  const fetchAllType = async () => {
+    const res = await ProductService.getAllTypeProduct();
+    return res.data;
+  };
+
   const {isLoading,data: products, isPlaceholderData} = useQuery({
     queryKey: ['products', searchValue,limitValue],
     queryFn: () => fetchAllProduct(searchValue,limitValue),
@@ -28,19 +32,26 @@ const HomePage = () => {
     retryDelay: 1000,
     placeholderData: (prev) => prev
   });
-  console.log(products)
+  const {isLoading: isLoadingType,data: types} = useQuery({
+    queryKey: ['type'],
+    queryFn: fetchAllType,
+    retry: 3,
+    retryDelay: 1000
+  });
   return (
     <>
       <div style={{padding: '0 120px'}}>
-        <WrapperTypeProduct>
-          {
-            arr.map((item) => {
-              return (
-                <TypeProductComponent key={item} name={item}/>
-              )
-            })
-          }
-        </WrapperTypeProduct>
+        <Loading spinning={isLoadingType}>
+          <WrapperTypeProduct>
+            {
+              types.map((item) => {
+                return (
+                  <TypeProductComponent key={item} name={item}/>
+                )
+              })
+            }
+          </WrapperTypeProduct>
+        </Loading>
       </div>
       <div id='container' style={{padding: '0 120px',backgroundColor: "#efefef",height: "10000px"}}>
         <SliderComponent arrImage={[slider1,slider2,slider3,slider4]} />
