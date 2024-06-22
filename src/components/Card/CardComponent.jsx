@@ -4,10 +4,13 @@ import { StarFilled } from '@ant-design/icons'
 import { WrapperDiscountText, WrapperPriceText, WrapperReportText } from './style';
 import tick from '../../assets/ticks/tick.png';
 import iphonePicture from '../../assets/products/iphone1.png';
+import { useNavigate } from "react-router-dom";
 
 const CardComponent = (props) => {
-  const {name,type,image,price,rating,countInStock,description,discount,solded} = props;
+  const {name,type,image,price,rating,countInStock,description,discount,solded,id} = props;
   const { Meta } = Card;
+  const navigate = useNavigate();
+  
   return (
     <Card
       hoverable
@@ -17,6 +20,7 @@ const CardComponent = (props) => {
       }}
       bodyStyle={{padding: '10px'}}
       cover={<img alt="example" src={image} style={{height: 200}}/>}
+      onClick={() => navigate(`/product-detail/${id}`)}
     >
       <img src={tick} style={{width: 68, height: 14, position: "absolute", top: 183, left: 0}} alt='tick'/>
       <Meta title={name}/>

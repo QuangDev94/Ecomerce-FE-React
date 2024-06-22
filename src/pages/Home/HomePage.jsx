@@ -50,6 +50,7 @@ const HomePage = () => {
               products?.data?.map((product) => {
                 return <CardComponent 
                           key={product._id}
+                          id={product._id}
                           name={product.name}
                           price={product.price}
                           image={product.image}

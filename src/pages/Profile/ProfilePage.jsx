@@ -84,7 +84,7 @@ const ProfilePage = () => {
                                 margin: '6px 0',
                             }}
                             textButton='Update'
-                            styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
+                            styleTextButton={{color: 'rgb(13,92,182)',fontSize: '15px', fontWeight: '700'}}
                             onClick = {handleUpdateName}
                         />
                     </WrapperInput>
@@ -102,7 +102,7 @@ const ProfilePage = () => {
                                 margin: '6px 0',
                             }}
                             textButton='Update'
-                            styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
+                            styleTextButton={{color: 'rgb(13,92,182)',fontSize: '15px', fontWeight: '700'}}
                             onClick = {handleUpdateEmail}
                         />
                     </WrapperInput>
@@ -120,7 +120,7 @@ const ProfilePage = () => {
                                 margin: '6px 0',
                             }}
                             textButton='Update'
-                            styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
+                            styleTextButton={{color: 'rgb(13,92,182)',fontSize: '15px', fontWeight: '700'}}
                             onClick = {handleUpdatePhone}
                         />
                     </WrapperInput>
@@ -138,7 +138,7 @@ const ProfilePage = () => {
                                 margin: '6px 0',
                             }}
                             textButton='Update'
-                            styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
+                            styleTextButton={{color: 'rgb(13,92,182)',fontSize: '15px', fontWeight: '700'}}
                             onClick = {handleUpdateAddress}
                         />
                     </WrapperInput>
@@ -168,7 +168,7 @@ const ProfilePage = () => {
                                 margin: '6px 0',
                             }}
                             textButton='Update'
-                            styleTextButton={{color: '#fff',fontSize: '15px', fontWeight: '700'}}
+                            styleTextButton={{color: 'rgb(13,92,182)',fontSize: '15px', fontWeight: '700'}}
                             onClick = {handleUpdateAvatar}
                         />
                     </WrapperInput>
