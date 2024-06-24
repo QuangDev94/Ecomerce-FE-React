@@ -33,6 +33,7 @@ export const WrapperHeaderCart = styled.div`
   align-items: center;
   color: #fff;
   padding-left: 10px;
+  cursor: pointer;
 `;
 
 export const WrapperContentPopover = styled.p`
