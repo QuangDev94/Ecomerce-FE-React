@@ -27,3 +27,13 @@ export const renderPage = (key) => {
       return <ProductAdmin />;
   }
 };
+
+export const convertPrice = (price) => {
+  try {
+    const priceFormat =
+      price?.toLocaleString().replaceAll(",", ".") + " " + "$";
+    return priceFormat;
+  } catch (error) {
+    return null;
+  }
+};

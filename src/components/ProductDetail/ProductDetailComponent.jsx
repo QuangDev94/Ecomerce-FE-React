@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addOrderProduct } from "../../redux/slices/orderSlice.js";
 import { useState } from "react";
+import { convertPrice } from "../../utils.js";
 
 const ProductDetailComponent = ({ idProduct }) => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const ProductDetailComponent = ({ idProduct }) => {
             image: productDetails?.data?.image,
             price: productDetails?.data?.price,
             product: productDetails?.data?._id,
+            discount: productDetails?.data?.discount,
           },
         }),
       );
@@ -120,7 +122,7 @@ const ProductDetailComponent = ({ idProduct }) => {
           </WrapperTextSolded>
           <WrapperProductPrice>
             <WrapperTextPrice>
-              {productDetails?.data?.price.toLocaleString()} $
+              {convertPrice(productDetails?.data?.price)}
             </WrapperTextPrice>
           </WrapperProductPrice>
           <WrapperAddress>
