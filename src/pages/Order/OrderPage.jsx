@@ -92,7 +92,7 @@ const OrderPage = () => {
     }
   }, [isOpenModalUpdateInfo]);
 
-  const handleChangeAddress = () => {
+  const handleAddressClick = () => {
     setIsOpenModalUpdateInfo(true);
   };
 
@@ -136,7 +136,7 @@ const OrderPage = () => {
     }
   };
 
-  const handleAddCard = () => {
+  const handleBuyClick = () => {
     if (!order?.orderItems?.length) {
       message.error("Please choice product! ");
     } else if (!user?.phone || !user.address || !user.name || !user.city) {
@@ -349,12 +349,12 @@ const OrderPage = () => {
               <WrapperInfo>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}>
-                  <span>Address: </span>
+                  <span>Shipping Address: </span>
                   <span style={{ fontWeight: "bold" }}>
-                    {`${user?.address}`}{" "}
+                    {`${user?.address}, ${user?.city}`}
                   </span>
                   <span
-                    onClick={handleChangeAddress}
+                    onClick={handleAddressClick}
                     style={{ color: "rgb(26, 148, 255)", cursor: "pointer" }}>
                     Change
                   </span>
@@ -436,7 +436,7 @@ const OrderPage = () => {
               </WrapperTotal>
             </div>
             <ButtonComponent
-              onClick={() => handleAddCard()}
+              onClick={() => handleBuyClick()}
               size={40}
               styleButton={{
                 background: "rgb(255, 57, 69)",
