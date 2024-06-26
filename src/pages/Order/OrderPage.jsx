@@ -8,6 +8,8 @@ import {
   WrapperListOrder,
   WrapperRight,
   WrapperStyleHeader,
+  WrapperStyleHeaderDelivery,
+  WrapperStyleHeaderDilivery,
   WrapperTotal,
 } from "./style";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -27,7 +29,7 @@ import {
   deleteOrderProduct,
 } from "../../redux/slices/orderSlice";
 import { convertPrice } from "../../utils";
-// import StepComponent from "../../components/StepConponent/StepComponent";
+import StepComponent from "../../components/Step/StepComponent";
 
 const OrderPage = () => {
   const order = useSelector((state) => state.order);
@@ -185,16 +187,16 @@ const OrderPage = () => {
   };
   const itemsDelivery = [
     {
-      title: "20.000 VND",
-      description: "Dưới 200.000 VND",
+      title: "200 $",
+      description: "Under 2.000 $",
     },
     {
-      title: "10.000 VND",
-      description: "Từ 200.000 VND đến dưới 500.000 VND",
+      title: "100 VND",
+      description: "From 2.000 $ To 5.000 $",
     },
     {
       title: "Free ship",
-      description: "Trên 500.000 VND",
+      description: "Over 5.000 $",
     },
   ];
   return (
@@ -228,20 +230,20 @@ const OrderPage = () => {
             paddingTop: "20px",
           }}>
           <WrapperLeft>
-            {/* <WrapperStyleHeaderDilivery> */}
-            {/* <StepComponent
+            <WrapperStyleHeaderDelivery>
+              <StepComponent
                 items={itemsDelivery}
                 current={
-                  deliveryPriceMemo === 10000
+                  deliveryPriceMemo === 100
                     ? 2
-                    : deliveryPriceMemo === 20000
+                    : deliveryPriceMemo === 200
                     ? 1
-                    : order.orderItemsSlected.length === 0
+                    : order.orderItems.length === 0
                     ? 0
                     : 3
                 }
-              /> */}
-            {/* </WrapperStyleHeaderDilivery> */}
+              />
+            </WrapperStyleHeaderDelivery>
             <WrapperStyleHeader>
               <span style={{ display: "inline-block", width: "390px" }}>
                 <CustomCheckbox

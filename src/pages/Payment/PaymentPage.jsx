@@ -177,7 +177,8 @@ const PaymentPage = () => {
           totalPriceMemo,
         },
       });
-    } else if (isError) {
+    }
+    if (isError) {
       console.error("Create Order Failed!:", mutationAddOrder.error);
     }
   }, [isSuccess, isError]);
