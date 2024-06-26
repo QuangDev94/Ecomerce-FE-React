@@ -2,14 +2,12 @@ import { Form, Input, InputNumber, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import {
   CustomCheckbox,
-  WrapperCountOrder,
   WrapperInfo,
   WrapperItemOrder,
   WrapperLeft,
   WrapperListOrder,
   WrapperRight,
   WrapperStyleHeader,
-  WrapperStyleHeaderDilivery,
   WrapperTotal,
 } from "./style";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -260,9 +258,9 @@ const OrderPage = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                 }}>
-                <span>Đơn giá</span>
-                <span>Số lượng</span>
-                <span>Thành tiền</span>
+                <span>Unit price</span>
+                <span>Quantity</span>
+                <span>Into money</span>
                 <DeleteOutlined
                   style={{ cursor: "pointer" }}
                   onClick={handleRemoveAllOrder}
@@ -316,16 +314,14 @@ const OrderPage = () => {
                           {convertPrice(order?.price)}
                         </span>
                       </span>
-                      <WrapperCountOrder>
-                        <InputNumber
-                          min={1}
-                          max={10}
-                          defaultValue={order?.amount}
-                          onChange={(value) =>
-                            handleChangeQuantity(value, order?.product)
-                          }
-                        />
-                      </WrapperCountOrder>
+                      <InputNumber
+                        min={1}
+                        max={10}
+                        defaultValue={order?.amount}
+                        onChange={(value) =>
+                          handleChangeQuantity(value, order?.product)
+                        }
+                      />
                       <span
                         style={{
                           color: "rgb(255, 66, 78)",

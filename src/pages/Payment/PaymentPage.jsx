@@ -166,6 +166,17 @@ const PaymentPage = () => {
       });
       dispatch(deleteAllOrderProduct({ listChecked: arrayOrdered }));
       message.success("Create Order Success!");
+      navigate("/order-success", {
+        state: {
+          delivery,
+          payment,
+          orders: order?.orderItems,
+          temporaryPriceMemo,
+          discountPriceMemo,
+          deliveryPriceMemo,
+          totalPriceMemo,
+        },
+      });
     } else if (isError) {
       console.error("Create Order Failed!:", mutationAddOrder.error);
     }
@@ -218,7 +229,7 @@ const PaymentPage = () => {
               marginTop: 0,
               fontSize: "14px",
             }}>
-            Thanh toán
+            Payment
           </h3>
           <div
             style={{
@@ -229,31 +240,28 @@ const PaymentPage = () => {
             <WrapperLeft>
               <WrapperInfo>
                 <div>
-                  <Lable>Chọn phương thức giao hàng</Lable>
+                  <Lable>Select delivery method</Lable>
                   <WrapperRadio onChange={handleDilivery} value={delivery}>
                     <Radio value="fast">
                       <span style={{ color: "#ea8500", fontWeight: "bold" }}>
                         FAST
                       </span>{" "}
-                      Giao hàng tiết kiệm
+                      Shipping Save
                     </Radio>
                     <Radio value="gojek">
                       <span style={{ color: "#ea8500", fontWeight: "bold" }}>
                         GO_JEK
                       </span>{" "}
-                      Giao hàng tiết kiệm
+                      Shipping Save
                     </Radio>
                   </WrapperRadio>
                 </div>
               </WrapperInfo>
               <WrapperInfo>
                 <div>
-                  <Lable>Chọn phương thức thanh toán</Lable>
+                  <Lable>Choose payment method</Lable>
                   <WrapperRadio onChange={handlePayment} value={payment}>
-                    <Radio value="later_money">
-                      {" "}
-                      Thanh toán tiền mặt khi nhận hàng
-                    </Radio>
+                    <Radio value="later_money">Pay cash upon receipt</Radio>
                   </WrapperRadio>
                 </div>
               </WrapperInfo>
