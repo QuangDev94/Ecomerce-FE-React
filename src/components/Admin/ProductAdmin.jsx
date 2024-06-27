@@ -72,6 +72,7 @@ const ProductAdmin = () => {
     retry: 3,
     retryDelay: 1000,
   });
+
   const dataTable =
     allProduct?.response?.data?.length &&
     allProduct?.response?.data?.map((product) => {
@@ -315,6 +316,7 @@ const ProductAdmin = () => {
 
   // Handle Select Type
   const [items, setItems] = useState(types);
+  console.log("types: ", items);
   const [newType, setNewType] = useState("");
   const inputRef = useRef(null);
   const onNameChange = (event) => {
@@ -331,6 +333,9 @@ const ProductAdmin = () => {
     }
     return;
   };
+  useEffect(() => {
+    setItems(types);
+  }, [types]);
   // End Handle Select Type
   // End Create Product
 
@@ -347,6 +352,7 @@ const ProductAdmin = () => {
     description: "",
     image: "",
     discount: "",
+    quality: "",
   });
   const [updateForm] = Form.useForm();
 
@@ -399,6 +405,12 @@ const ProductAdmin = () => {
     setStateProductDetails({
       ...stateProductDetails,
       [e.target.name]: e.target.value,
+    });
+  };
+  const handleOnChangeTypeDetails = (value) => {
+    setStateProductDetails({
+      ...stateProductDetails,
+      type: value,
     });
   };
   const handleOnChangeImageDetails = async ({ fileList }) => {
@@ -553,6 +565,7 @@ const ProductAdmin = () => {
                 setIsLoadingUpdate(true);
                 setIsOpenDrawer(true);
                 const res = await ProductService.getDetailsProduct(record._id);
+                console.log(res);
                 setStateProductDetails({
                   id: res?.data?._id,
                   name: res?.data?.name,
@@ -563,6 +576,7 @@ const ProductAdmin = () => {
                   countInStock: res?.data?.countInStock,
                   image: res?.data?.image,
                   discount: res?.data?.discount,
+                  quality: res?.data?.quality,
                 });
               }
               if (
@@ -816,10 +830,47 @@ const ProductAdmin = () => {
                   message: "Please input your type product!",
                 },
               ]}>
-              <Input
+              {/* <Input
                 value={stateProductDetails.type}
                 name="type"
                 onChange={handleOnChangeDetails}
+              /> */}
+              <Select
+                name="type"
+                onChange={handleOnChangeTypeDetails}
+                defaultValue={stateProductDetails.type}
+                dropdownRender={(menu) => (
+                  <>
+                    {menu}
+                    <Divider
+                      style={{
+                        margin: "8px 0",
+                      }}
+                    />
+                    <Space
+                      style={{
+                        padding: "0 8px 4px",
+                      }}>
+                      <Input
+                        placeholder="Please enter item"
+                        ref={inputRef}
+                        value={newType}
+                        onChange={onNameChange}
+                        onKeyDown={(e) => e.stopPropagation()}
+                      />
+                      <Button
+                        type="text"
+                        icon={<PlusOutlined />}
+                        onClick={addItem}>
+                        Add new type
+                      </Button>
+                    </Space>
+                  </>
+                )}
+                options={items?.map((item) => ({
+                  label: item,
+                  value: item,
+                }))}
               />
             </Form.Item>
             <Form.Item
@@ -865,6 +916,13 @@ const ProductAdmin = () => {
                 value={stateProductDetails.countInStock}
                 name="countInStock"
                 onChange={handleOnChangeDetails}
+              />
+            </Form.Item>
+            <Form.Item label="Quality" name="quality">
+              <Input
+                value={stateProductDetails.quality}
+                name="quality"
+                disabled
               />
             </Form.Item>
             <Form.Item

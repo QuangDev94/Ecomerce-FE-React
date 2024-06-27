@@ -22,6 +22,7 @@ import { searchProduct } from "../../redux/slices/productSlice";
 
 const Header = ({ isHiddenSearch, isHiddenCart }) => {
   const [loading, setLoading] = useState(false);
+  const [isOpenPopup, setIsOpenPopup] = useState();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const order = useSelector((state) => state.order);
@@ -41,11 +42,17 @@ const Header = ({ isHiddenSearch, isHiddenCart }) => {
 
   const content = (
     <div>
-      <WrapperContentPopover onClick={() => navigate("/profile-user")}>
+      <WrapperContentPopover
+        onClick={() => handleContentPopupClick("/profile-user")}>
         User Information
       </WrapperContentPopover>
+      <WrapperContentPopover
+        onClick={() => handleContentPopupClick("/my-order")}>
+        My Order
+      </WrapperContentPopover>
       {user?.isAdmin ? (
-        <WrapperContentPopover onClick={() => navigate("/system/admin")}>
+        <WrapperContentPopover
+          onClick={() => handleContentPopupClick("/system/admin")}>
           System Admin
         </WrapperContentPopover>
       ) : (
@@ -56,6 +63,11 @@ const Header = ({ isHiddenSearch, isHiddenCart }) => {
       </WrapperContentPopover>
     </div>
   );
+
+  const handleContentPopupClick = (type) => {
+    navigate(type);
+    setIsOpenPopup(false);
+  };
   return (
     <div>
       <WrapperHeader
@@ -86,23 +98,27 @@ const Header = ({ isHiddenSearch, isHiddenCart }) => {
           <Loading spinning={loading}>
             <WrapperHeaderAcount>
               {user?.avatar ? (
-                <Popover placement="bottom" content={content} trigger="click">
-                  <img
-                    src={user?.avatar}
-                    style={{
-                      height: "40px",
-                      width: "40px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </Popover>
+                <img
+                  src={user?.avatar}
+                  style={{
+                    height: "40px",
+                    width: "40px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
               ) : (
                 <UserOutlined style={{ fontSize: "25px" }} />
               )}
               {user?.email ? (
-                <Popover placement="bottom" content={content} trigger="click">
-                  <div>{user?.name || user?.email}</div>
+                <Popover
+                  placement="bottom"
+                  content={content}
+                  trigger="click"
+                  open={isOpenPopup}>
+                  <div onClick={() => setIsOpenPopup((prev) => !prev)}>
+                    {user?.name || user?.email}
+                  </div>
                 </Popover>
               ) : (
                 <div

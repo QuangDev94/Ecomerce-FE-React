@@ -178,8 +178,9 @@ const PaymentPage = () => {
         },
       });
     }
+    console.log(dataAdd);
     if (isError) {
-      console.error("Create Order Failed!:", mutationAddOrder.error);
+      message.error(mutationAddOrder?.error?.response?.data?.message?.message);
     }
   }, [isSuccess, isError]);
 
