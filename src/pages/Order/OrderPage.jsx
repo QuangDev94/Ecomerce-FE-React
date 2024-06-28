@@ -261,7 +261,7 @@ const OrderPage = () => {
                   justifyContent: "space-between",
                 }}>
                 <span>Unit price</span>
-                <span>Quantity</span>
+                <span>Quality</span>
                 <span>Into money</span>
                 <DeleteOutlined
                   style={{ cursor: "pointer" }}
@@ -318,7 +318,7 @@ const OrderPage = () => {
                       </span>
                       <InputNumber
                         min={1}
-                        max={10}
+                        max={order?.quality}
                         defaultValue={order?.amount}
                         onChange={(value) =>
                           handleChangeQuantity(value, order?.product)

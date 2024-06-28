@@ -180,7 +180,10 @@ const PaymentPage = () => {
     }
     console.log(dataAdd);
     if (isError) {
-      message.error(mutationAddOrder?.error?.response?.data?.message?.message);
+      message.error(
+        mutationAddOrder?.error?.response?.data?.message?.message,
+        5,
+      );
     }
   }, [isSuccess, isError]);
 

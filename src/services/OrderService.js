@@ -41,10 +41,10 @@ export const getDetailsOrder = async (id, access_token) => {
 };
 
 export const cancelOrder = async (id, access_token, orderItems, userId) => {
-  const data = { orderItems, userId };
-  const res = await axios.delete(
-    `${process.env.REACT_APP_API_URL}/order/cancel-order/${orderId}`,
-    { data },
+  const data = { orderItems, orderId: id };
+  const res = await axios.post(
+    `${process.env.REACT_APP_API_URL}/order/cancel-order/${userId}`,
+    data,
     {
       headers: {
         token: `Bearer ${access_token}`,

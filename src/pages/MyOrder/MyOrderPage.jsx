@@ -61,7 +61,7 @@ const MyOrderPage = () => {
         id: order._id,
         token: state?.access_token,
         orderItems: order?.orderItems,
-        userId: user.id,
+        userId: user?.id,
       },
       {
         onSuccess: () => {
@@ -71,7 +71,7 @@ const MyOrderPage = () => {
     );
   };
   const {
-    isLoading: isLoadingCancel,
+    isPending: isLoadingCancel,
     isSuccess: isSuccessCancel,
     isError: isErrorCancle,
     data: dataCancel,
@@ -121,7 +121,7 @@ const MyOrderPage = () => {
   };
 
   return (
-    <Loading spinning={isLoading}>
+    <Loading spinning={isLoading || isLoadingCancel}>
       <WrapperContainer>
         <div
           style={{

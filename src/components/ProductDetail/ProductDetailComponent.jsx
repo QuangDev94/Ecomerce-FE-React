@@ -54,11 +54,13 @@ const ProductDetailComponent = ({ idProduct }) => {
             price: productDetails?.data?.price,
             product: productDetails?.data?._id,
             discount: productDetails?.data?.discount,
+            quality: productDetails?.data?.quality,
           },
         }),
       );
     }
   };
+  console.log(productDetails);
   return (
     <Loading spinning={isLoading}>
       <Row style={{ background: "#fff", borderRadius: "4px", padding: "10px" }}>
@@ -140,7 +142,7 @@ const ProductDetailComponent = ({ idProduct }) => {
             <div style={{ margin: "10px 0" }}>
               <InputNumber
                 min={1}
-                max={productDetails?.data?.countInStock}
+                max={productDetails?.data?.quality}
                 defaultValue={1}
                 onChange={handleChangeQuantity}
               />

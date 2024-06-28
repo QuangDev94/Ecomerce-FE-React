@@ -4,8 +4,8 @@ const success = (mes = "Success") => {
   message.success(mes);
 };
 
-const error = (mes = "Error") => {
-  message.error(mes);
+const error = (mes = "Error", duration) => {
+  message.error(mes, duration);
 };
 
 const warning = (mes = "Warning") => {

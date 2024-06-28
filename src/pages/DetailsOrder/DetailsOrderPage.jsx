@@ -40,7 +40,7 @@ const DetailsOrderPage = () => {
     enabled: Boolean(id),
   });
   const { isLoading, data } = queryOrder;
-
+  console.log(data);
   console.log("data: ", data);
   const priceMemo = useMemo(() => {
     const result = data?.orderItems?.reduce((total, cur) => {
@@ -156,8 +156,10 @@ const DetailsOrderPage = () => {
                   <WrapperItem>{order?.amount}</WrapperItem>
                   <WrapperItem>
                     {order?.discount
-                      ? convertPrice((priceMemo * order?.discount) / 100)
-                      : "0 $"}
+                      ? convertPrice((priceMemo * order?.discount) / 100) +
+                        " " +
+                        `(${order?.discount}%)`
+                      : "0 $ (0%)"}
                   </WrapperItem>
                 </WrapperProduct>
               );
