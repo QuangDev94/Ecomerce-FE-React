@@ -1,4 +1,5 @@
 import AdminPage from "../pages/Admin/AdminPage";
+import DetailsOrderPage from "../pages/DetailsOrder/DetailsOrderPage";
 import HomePage from "../pages/Home/HomePage";
 import MyOrderPage from "../pages/MyOrder/MyOrderPage";
 import NotFoundPage from "../pages/NotFound/NotFoundPage";
@@ -26,6 +27,11 @@ export const routes = [
   {
     path: "/my-order",
     page: <MyOrderPage />,
+    isShowHeader: true,
+  },
+  {
+    path: "/details-order/:id",
+    page: <DetailsOrderPage />,
     isShowHeader: true,
   },
   {

@@ -65,7 +65,12 @@ const Header = ({ isHiddenSearch, isHiddenCart }) => {
   );
 
   const handleContentPopupClick = (type) => {
-    navigate(type);
+    navigate(type, {
+      state: {
+        id: user?.id,
+        access_token: user?.access_token,
+      },
+    });
     setIsOpenPopup(false);
   };
   return (

@@ -1,11 +1,16 @@
-import { Drawer } from "antd"
+import { Drawer } from "antd";
 
-const DrawerComponent = ({title = "Drawer", isOpen = false ,children,...rest}) => {
+const DrawerComponent = ({
+  title = "Drawer",
+  isOpen = false,
+  children,
+  ...rest
+}) => {
   return (
     <Drawer title={title} open={isOpen} {...rest}>
-        {children}
+      {children}
     </Drawer>
-  )
-}
+  );
+};
 
-export default DrawerComponent
+export default DrawerComponent;
