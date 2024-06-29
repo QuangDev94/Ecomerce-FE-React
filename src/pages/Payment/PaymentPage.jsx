@@ -17,11 +17,13 @@ import InputComponent from "../../components/Input/InputComponent";
 import { useMutationHooks } from "../../hooks/useMutationHook";
 import * as UserService from "../../services/UserService";
 import * as OrderService from "../../services/OrderService";
+import * as PaymentService from "../../services/PaymentService";
 import Loading from "../../components/Loading/Loading";
 import * as message from "../../components/Message/Message";
 import { updateUser } from "../../redux/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { deleteAllOrderProduct } from "../../redux/slices/orderSlice";
+import { PayPalButton } from "react-paypal-button-v2";
 
 const PaymentPage = () => {
   const order = useSelector((state) => state.order);
@@ -29,6 +31,7 @@ const PaymentPage = () => {
 
   const [delivery, setDelivery] = useState("fast");
   const [payment, setPayment] = useState("later_money");
+  const [sdkReady, setSdkReady] = useState(false);
   const navigate = useNavigate();
 
   const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false);
@@ -178,7 +181,6 @@ const PaymentPage = () => {
         },
       });
     }
-    console.log(dataAdd);
     if (isError) {
       message.error(
         mutationAddOrder?.error?.response?.data?.message?.message,
@@ -208,10 +210,46 @@ const PaymentPage = () => {
     setDelivery(e.target.value);
   };
 
-  const handlePayment = (e) => {
+  const handlePaymentChange = (e) => {
     setPayment(e.target.value);
   };
+  const onSuccessPaypal = (details, data) => {
+    mutationAddOrder.mutate({
+      token: user?.access_token,
+      orderItems: order?.orderItems,
+      fullName: user?.name,
+      address: user?.address,
+      phone: user?.phone,
+      city: user?.city,
+      paymentMethod: payment,
+      itemsPrice: temporaryPriceMemo,
+      shippingPrice: deliveryPriceMemo,
+      totalPrice: totalPriceMemo,
+      user: user?.id,
+      isPaid: true,
+      paidAt: details.update_time,
+    });
+  };
+  const addPaypalScript = async () => {
+    const { data } = await PaymentService.getConfig();
+    console.log(data);
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+    script.async = true;
+    script.onload = () => {
+      setSdkReady(true);
+    };
+    document.body.appendChild(script);
+  };
 
+  useEffect(() => {
+    if (!window.paypal) {
+      addPaypalScript();
+    } else {
+      setSdkReady(true);
+    }
+  }, []);
   return (
     <div
       style={{
@@ -265,8 +303,9 @@ const PaymentPage = () => {
               <WrapperInfo>
                 <div>
                   <Lable>Choose payment method</Lable>
-                  <WrapperRadio onChange={handlePayment} value={payment}>
+                  <WrapperRadio onChange={handlePaymentChange} value={payment}>
                     <Radio value="later_money">Pay cash upon receipt</Radio>
+                    <Radio value="paypal">Pay by PayPal</Radio>
                   </WrapperRadio>
                 </div>
               </WrapperInfo>
@@ -359,23 +398,36 @@ const PaymentPage = () => {
                   </span>
                 </WrapperTotal>
               </div>
-              <ButtonComponent
-                onClick={() => handleAddOrderClick()}
-                size={40}
-                styleButton={{
-                  background: "rgb(255, 57, 69)",
-                  height: "48px",
-                  width: "320px",
-                  border: "none",
-                  borderRadius: "4px",
-                }}
-                textButton="Payment"
-                styleTextButton={{
-                  color: "#fff",
-                  fontSize: "15px",
-                  fontWeight: "700",
-                }}
-              />
+              {payment === "paypal" && sdkReady ? (
+                <div style={{ width: "320px" }}>
+                  <PayPalButton
+                    amount={totalPriceMemo}
+                    // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                    onSuccess={onSuccessPaypal}
+                    onError={() => {
+                      alert("Error");
+                    }}
+                  />
+                </div>
+              ) : (
+                <ButtonComponent
+                  onClick={() => handleAddOrderClick()}
+                  size={40}
+                  styleButton={{
+                    background: "rgb(255, 57, 69)",
+                    height: "48px",
+                    width: "320px",
+                    border: "none",
+                    borderRadius: "4px",
+                  }}
+                  textButton="Payment"
+                  styleTextButton={{
+                    color: "#fff",
+                    fontSize: "15px",
+                    fontWeight: "700",
+                  }}
+                />
+              )}
             </WrapperRight>
           </div>
         </div>
