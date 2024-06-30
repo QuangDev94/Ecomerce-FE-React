@@ -1,3 +1,4 @@
+import OrderAdmin from "./components/Admin/OrderAdmin";
 import ProductAdmin from "./components/Admin/ProductAdmin";
 import UserAdmin from "./components/Admin/UserAdmin";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -25,6 +26,8 @@ export const renderPage = (key) => {
       return <UserAdmin />;
     case "product":
       return <ProductAdmin />;
+    case "order":
+      return <OrderAdmin />;
   }
 };
 
