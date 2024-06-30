@@ -13,6 +13,7 @@ const initialState = {
   paidAt: "",
   isDelivered: false,
   deliveredAt: "",
+  isOrderSuccess: false,
 };
 
 export const orderSlice = createSlice({
@@ -26,9 +27,14 @@ export const orderSlice = createSlice({
       );
       if (itemOrder) {
         itemOrder.amount += orderItem?.amount;
+        state.isOrderSuccess = true;
       } else {
         state.orderItems.push(orderItem);
+        state.isOrderSuccess = true;
       }
+    },
+    resetAddOrder: (state, action) => {
+      state.isOrderSuccess = false;
     },
     changeAmountProduct: (state, action) => {
       const { value, productId } = action.payload;
@@ -60,6 +66,7 @@ export const {
   changeAmountProduct,
   deleteOrderProduct,
   deleteAllOrderProduct,
+  resetAddOrder,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

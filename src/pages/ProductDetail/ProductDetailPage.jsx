@@ -13,7 +13,6 @@ const ProductDetailPage = () => {
         style={{
           padding: "20px 120px",
           background: "#efefef",
-          height: "1000px",
         }}>
         <ProductDetailComponent idProduct={id} />
       </div>

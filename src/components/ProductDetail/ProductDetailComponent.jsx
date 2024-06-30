@@ -18,16 +18,34 @@ import * as ProductService from "../../services/ProductService";
 import Loading from "../Loading/Loading.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addOrderProduct } from "../../redux/slices/orderSlice.js";
-import { useState } from "react";
-import { convertPrice } from "../../utils.js";
+import {
+  addOrderProduct,
+  resetAddOrder,
+} from "../../redux/slices/orderSlice.js";
+import { useEffect, useState } from "react";
+import { convertPrice, initFacebookSDK } from "../../utils.js";
+import * as message from "../Message/Message.jsx";
+import LikeButtonComponent from "../LikeButton/LikeButtonComponent.jsx";
+import CommentFbComponent from "../CommentFb/CommentFbComponent.jsx";
 
 const ProductDetailComponent = ({ idProduct }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const order = useSelector((state) => state.order);
   const navigate = useNavigate();
   const location = useLocation();
   const [quantity, setQuantity] = useState(1);
+  useEffect(() => {
+    initFacebookSDK();
+  }, []);
+  useEffect(() => {
+    if (order.isOrderSuccess) {
+      message.success("Have added in cart");
+    }
+    return () => {
+      dispatch(resetAddOrder());
+    };
+  });
   const fetchDetailsProduct = async (id) => {
     const res = await ProductService.getDetailsProduct(id);
     return res;
@@ -137,6 +155,7 @@ const ProductDetailComponent = ({ idProduct }) => {
               Change address
             </span>
           </WrapperAddress>
+          <LikeButtonComponent dataHref="https://developers.facebook.com/docs/plugins/" />
           <WrapperProducQuality>
             <div style={{ marginTop: "10px" }}>Quality: </div>
             <div style={{ margin: "10px 0" }}>
@@ -180,6 +199,18 @@ const ProductDetailComponent = ({ idProduct }) => {
             />
           </div>
         </Col>
+        <div
+          class="fb-like"
+          data-href="https://developers.facebook.com/docs/plugins/"
+          data-width=""
+          data-layout=""
+          data-action=""
+          data-size="s"
+          data-share="true"></div>
+        <CommentFbComponent
+          dataHref="https://developers.facebook.com/docs/plugins/comments#configurator"
+          width="100%"
+        />
       </Row>
     </Loading>
   );
