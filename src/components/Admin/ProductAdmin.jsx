@@ -316,7 +316,6 @@ const ProductAdmin = () => {
 
   // Handle Select Type
   const [items, setItems] = useState(types);
-  console.log("types: ", items);
   const [newType, setNewType] = useState("");
   const inputRef = useRef(null);
   const onNameChange = (event) => {
@@ -565,7 +564,6 @@ const ProductAdmin = () => {
                 setIsLoadingUpdate(true);
                 setIsOpenDrawer(true);
                 const res = await ProductService.getDetailsProduct(record._id);
-                console.log(res);
                 setStateProductDetails({
                   id: res?.data?._id,
                   name: res?.data?.name,

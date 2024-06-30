@@ -230,6 +230,7 @@ const PaymentPage = () => {
       user: user?.id,
       isPaid: true,
       paidAt: details.update_time,
+      email: user?.email,
     });
   };
 
@@ -403,7 +404,7 @@ const PaymentPage = () => {
               {payment === "paypal" && sdkReady ? (
                 <div style={{ width: "320px" }}>
                   <PayPalButton
-                    amount={totalPriceMemo}
+                    amount={Math.round(totalPriceMemo)}
                     // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                     onSuccess={onSuccessPaypal}
                     onError={() => {

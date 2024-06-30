@@ -40,8 +40,6 @@ const DetailsOrderPage = () => {
     enabled: Boolean(id),
   });
   const { isLoading, data } = queryOrder;
-  console.log(data);
-  console.log("data: ", data);
   const priceMemo = useMemo(() => {
     const result = data?.orderItems?.reduce((total, cur) => {
       return total + cur.price * cur.amount;

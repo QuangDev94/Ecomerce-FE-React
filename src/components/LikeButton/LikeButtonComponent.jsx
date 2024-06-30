@@ -5,7 +5,7 @@ const LikeButtonComponent = (props) => {
   return (
     <div style={{ marginTop: "8px" }}>
       <div
-        class="fb-like"
+        className="fb-like"
         data-href={dataHref}
         data-width=""
         data-layout=""

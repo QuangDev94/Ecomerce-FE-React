@@ -33,7 +33,11 @@ const CardComponent = (props) => {
         width: 200,
         marginBottom: "15px",
       }}
-      bodyStyle={{ padding: "10px" }}
+      styles={{
+        body: {
+          padding: "10px",
+        },
+      }}
       cover={<img alt="example" src={image} style={{ height: 200 }} />}
       onClick={() => navigate(`/product-detail/${id}`)}>
       <img

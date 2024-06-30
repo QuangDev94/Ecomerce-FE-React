@@ -78,7 +78,6 @@ const ProductDetailComponent = ({ idProduct }) => {
       );
     }
   };
-  console.log(productDetails);
   return (
     <Loading spinning={isLoading}>
       <Row style={{ background: "#fff", borderRadius: "4px", padding: "10px" }}>
@@ -155,7 +154,13 @@ const ProductDetailComponent = ({ idProduct }) => {
               Change address
             </span>
           </WrapperAddress>
-          <LikeButtonComponent dataHref="https://developers.facebook.com/docs/plugins/" />
+          <LikeButtonComponent
+            dataHref={
+              process.env.REACT_APP_IS_LOCAL
+                ? "https://developers.facebook.com/docs/plugins/"
+                : window.location.href
+            }
+          />
           <WrapperProducQuality>
             <div style={{ marginTop: "10px" }}>Quality: </div>
             <div style={{ margin: "10px 0" }}>
@@ -199,16 +204,12 @@ const ProductDetailComponent = ({ idProduct }) => {
             />
           </div>
         </Col>
-        <div
-          class="fb-like"
-          data-href="https://developers.facebook.com/docs/plugins/"
-          data-width=""
-          data-layout=""
-          data-action=""
-          data-size="s"
-          data-share="true"></div>
         <CommentFbComponent
-          dataHref="https://developers.facebook.com/docs/plugins/comments#configurator"
+          dataHref={
+            process.env.REACT_APP_IS_LOCAL
+              ? "https://developers.facebook.com/docs/plugins/comments#configurator"
+              : window.location.href
+          }
           width="100%"
         />
       </Row>
