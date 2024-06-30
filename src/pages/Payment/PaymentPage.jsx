@@ -150,6 +150,7 @@ const PaymentPage = () => {
         shippingPrice: deliveryPriceMemo,
         totalPrice: totalPriceMemo,
         user: user?.id,
+        email: user?.email,
       });
     }
   };
@@ -213,6 +214,7 @@ const PaymentPage = () => {
   const handlePaymentChange = (e) => {
     setPayment(e.target.value);
   };
+
   const onSuccessPaypal = (details, data) => {
     mutationAddOrder.mutate({
       token: user?.access_token,
@@ -230,9 +232,9 @@ const PaymentPage = () => {
       paidAt: details.update_time,
     });
   };
+
   const addPaypalScript = async () => {
     const { data } = await PaymentService.getConfig();
-    console.log(data);
     const script = document.createElement("script");
     script.type = "text/javascript";
     script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
