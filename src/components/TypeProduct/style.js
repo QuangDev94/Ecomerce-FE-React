@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const WrapperTypeComponent = styled.div`
   &: hover {
-    color: rgb(26, 148, 255);
+    color: #f14040;
   }
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
 `;

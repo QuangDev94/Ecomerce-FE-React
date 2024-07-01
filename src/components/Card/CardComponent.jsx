@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "antd";
+import { Card, Col } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import {
   WrapperDiscountText,
@@ -27,42 +27,65 @@ const CardComponent = (props) => {
   const navigate = useNavigate();
 
   return (
-    <Card
-      hoverable
-      style={{
-        width: 200,
-        marginBottom: "15px",
+    <Col
+      xs={{
+        flex: "100%",
+        offset: 1,
       }}
-      styles={{
-        body: {
-          padding: "10px",
-        },
+      // sm={{
+      //   flex: "45%",
+      //   offset: 1,
+      // }}
+      md={{
+        flex: "40%",
+        offset: 1,
       }}
-      cover={<img alt="example" src={image} style={{ height: 200 }} />}
-      onClick={() => navigate(`/product-detail/${id}`)}>
-      <img
-        src={tick}
+      lg={{
+        flex: "29%",
+        offset: 1,
+      }}
+      xl={{
+        flex: "20%",
+        offset: 1,
+      }}
+      style={{ marginBottom: "20px" }}>
+      <Card
+        hoverable
         style={{
-          width: 68,
-          height: 14,
-          position: "absolute",
-          top: 183,
-          left: 0,
+          width: "100%",
+          height: 310,
         }}
-        alt="tick"
-      />
-      <Meta title={name} />
-      <WrapperReportText>
-        <span>{rating}</span>{" "}
-        <StarFilled style={{ fontSize: "10px", color: "yellow" }} />
-        <span style={{ padding: "0 3px" }}>|</span>{" "}
-        <span>Solded {solded || 1000}+</span>
-      </WrapperReportText>
-      <WrapperPriceText>
-        {convertPrice(price)}
-        <WrapperDiscountText>-{discount || 0}%</WrapperDiscountText>
-      </WrapperPriceText>
-    </Card>
+        styles={{
+          body: {
+            padding: "10px",
+          },
+        }}
+        cover={<img alt="example" src={image} style={{ height: 230 }} />}
+        onClick={() => navigate(`/product-detail/${id}`)}>
+        <img
+          src={tick}
+          style={{
+            width: 68,
+            height: 16,
+            position: "absolute",
+            top: 211,
+            left: 0,
+          }}
+          alt="tick"
+        />
+        <Meta title={name} />
+        <WrapperReportText>
+          <span>{rating}</span>{" "}
+          <StarFilled style={{ fontSize: "10px", color: "yellow" }} />
+          <span style={{ padding: "0 3px" }}>|</span>{" "}
+          <span>Solded {solded || 1000}+</span>
+        </WrapperReportText>
+        <WrapperPriceText>
+          {convertPrice(price)}
+          <WrapperDiscountText>-{discount || 0}%</WrapperDiscountText>
+        </WrapperPriceText>
+      </Card>
+    </Col>
   );
 };
 

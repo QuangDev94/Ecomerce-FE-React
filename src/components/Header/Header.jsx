@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Badge, Col, Popover } from "antd";
+import { Col, Popover } from "antd";
 import {
   WrapperContentPopover,
   WrapperHeader,
   WrapperHeaderAcount,
   WrapperHeaderCart,
   WrapperHeaderText,
+  WrapperSearch,
+  WrraperBagde,
+  WrraperColAccount,
 } from "./style";
-import Search from "antd/es/input/Search";
 import {
   UserOutlined,
   CaretDownOutlined,
@@ -19,8 +21,11 @@ import * as UserService from "../../services/UserService";
 import { resetUser } from "../../redux/slices/userSlice";
 import Loading from "../Loading/Loading";
 import { searchProduct } from "../../redux/slices/productSlice";
+import { useViewport } from "../../hooks/useViewport";
 
 const Header = ({ isHiddenSearch, isHiddenCart }) => {
+  const viewPort = useViewport();
+  console.log("view: ", viewPort);
   const [loading, setLoading] = useState(false);
   const [isOpenPopup, setIsOpenPopup] = useState();
   const navigate = useNavigate();
@@ -80,12 +85,18 @@ const Header = ({ isHiddenSearch, isHiddenCart }) => {
           justifyContent:
             isHiddenSearch && isHiddenCart ? "space-between" : "space-around",
         }}>
-        <Col span={4} onClick={() => navigate("/")}>
+        <Col
+          span={4}
+          onClick={
+            viewPort.width < 650
+              ? () => navigate("/sign-in")
+              : () => navigate("/")
+          }>
           <WrapperHeaderText>QuangDev</WrapperHeaderText>
         </Col>
         {!isHiddenSearch && (
           <Col span={12}>
-            <Search
+            <WrapperSearch
               placeholder="input search text"
               enterButton
               onSearch={handleSearch}
@@ -95,10 +106,10 @@ const Header = ({ isHiddenSearch, isHiddenCart }) => {
         <Col
           span={7}
           style={{
-            display: "flex",
+            display: `${viewPort.width < 650 ? "none" : "flex"}`,
             alignItems: "center",
-            // gap: "7px",
             justifyContent: "right",
+            width: "fit-content",
           }}>
           <Loading spinning={loading}>
             <WrapperHeaderAcount>
@@ -130,24 +141,29 @@ const Header = ({ isHiddenSearch, isHiddenCart }) => {
                   onClick={() => {
                     navigate("/sign-in");
                   }}>
-                  <span style={{ fontSize: "12px", whiteSpace: "nowrap" }}>
-                    Sign-in/Sign-up
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      whiteSpace: "nowrap",
+                      fontWeight: "bold",
+                    }}>
+                    Sign-in
                   </span>
-                  <div>
+                  {/* <div>
                     <span>Account</span>
                     <CaretDownOutlined />
-                  </div>
+                  </div> */}
                 </div>
               )}
             </WrapperHeaderAcount>
           </Loading>
           {!isHiddenCart && (
             <WrapperHeaderCart onClick={() => navigate("/order")}>
-              <Badge count={order?.orderItems?.length} size="small">
+              <WrraperBagde count={order?.orderItems?.length} size="small">
                 <ShoppingCartOutlined
                   style={{ fontSize: "25px", color: "#fff" }}
                 />
-              </Badge>
+              </WrraperBagde>
               <span style={{ fontSize: "12px", whiteSpace: "nowrap" }}>
                 Cart Order
               </span>

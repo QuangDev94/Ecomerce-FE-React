@@ -1,17 +1,17 @@
 import TypeProductComponent from "../../components/TypeProduct/TypeProductComponent";
-import { WrapperProducts, WrapperTypeProduct } from "./style";
+import { WrapperProducts, WrapperTypeProduct, WrraperContainer } from "./style";
 import SliderComponent from "../../components/Slider/SliderComponent";
-import slider1 from "../../assets/images/slider1.webp";
-import slider2 from "../../assets/images/slider2.jpg";
-import slider3 from "../../assets/images/slider3.jpg";
-import slider4 from "../../assets/images/slider4.jpg";
+import slider1 from "../../assets/images/slider5.jpg";
+import slider2 from "../../assets/images/slider6.jpg";
+import slider3 from "../../assets/images/slider7.jpg";
+import slider4 from "../../assets/images/slider8.jpg";
 import CardComponent from "../../components/Card/CardComponent";
 import * as ProductService from "../../services/ProductService";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import Loading from "../../components/Loading/Loading";
 import { useState } from "react";
-import { Button, Flex } from "antd";
+import { Button, Flex, Row } from "antd";
 
 const HomePage = () => {
   const searchValue = useSelector((state) => state.product.searchValue);
@@ -53,16 +53,14 @@ const HomePage = () => {
           </WrapperTypeProduct>
         </Loading>
       </div>
-      <div
+      <WrraperContainer
         id="container"
         style={{
-          padding: "0 120px",
           backgroundColor: "#efefef",
-          height: "10000px",
         }}>
         <SliderComponent arrImage={[slider1, slider2, slider3, slider4]} />
         <Loading spinning={isLoading}>
-          <WrapperProducts>
+          <Row style={{ margin: "60px 8px" }}>
             {products?.data?.map((product) => {
               return (
                 <CardComponent
@@ -80,31 +78,34 @@ const HomePage = () => {
                 />
               );
             })}
-          </WrapperProducts>
+          </Row>
         </Loading>
         <Loading spinning={isPlaceholderData}>
           <div
             style={{
-              marginTop: "15px",
+              marginTop: "25px",
               display: "flex",
               justifyContent: "center",
             }}>
-            <Flex vertical gap="small" style={{ width: "30%" }}>
+            <Flex vertical gap="small" style={{ width: "20%" }}>
               <Button
                 type="primary"
-                block
+                danger
                 onClick={() => setLimitValue((prev) => prev + 4)}
                 disabled={
                   products?.total === products?.data?.length ||
                   products?.totalPage === 1
-                }>
+                }
+                style={{
+                  marginBottom: "30px",
+                }}>
                 More
               </Button>
             </Flex>
           </div>
         </Loading>
         {/* < NavbarComponent />  */}
-      </div>
+      </WrraperContainer>
     </>
   );
 };
