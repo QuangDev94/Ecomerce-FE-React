@@ -25,6 +25,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const mutation = useMutationHooks((data) => UserService.loginUser(data));
   const { data, isPending, isSuccess, isError } = mutation;
+  console.log("data: ", data);
   const dispatch = useDispatch();
 
   useEffect(() => {

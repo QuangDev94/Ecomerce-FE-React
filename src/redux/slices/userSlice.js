@@ -51,7 +51,6 @@ export const userSlice = createSlice({
       state.avatar = "";
       state.isAdmin = false;
       state.access_token = "";
-      state.refresh_token = "";
     },
   },
 });

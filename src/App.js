@@ -33,8 +33,10 @@ function App() {
     return { decoded, storageData };
   };
   const handleGetDetailsUser = async (id, token) => {
+    let storageRefreshToken = localStorage.getItem("refresh_token");
+    const refresh_token = JSON.parse(storageRefreshToken);
     const res = await UserService.getDetailsUser(id, token);
-    dispatch(updateUser({ ...res.data, access_token: token }));
+    dispatch(updateUser({ ...res.data, access_token: token, refresh_token }));
   };
 
   UserService.axiosJWT.interceptors.request.use(
