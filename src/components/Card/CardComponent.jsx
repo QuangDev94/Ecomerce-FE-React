@@ -52,7 +52,7 @@ const CardComponent = (props) => {
       <Card
         hoverable
         style={{
-          width: "100%",
+          maxWidth: "100%",
           height: 310,
         }}
         styles={{
@@ -73,12 +73,12 @@ const CardComponent = (props) => {
           }}
           alt="tick"
         />
-        <Meta title={name} />
+        <Meta title={name} style={{ maxWidth: "220px" }} />
         <WrapperReportText>
           <span>{rating}</span>{" "}
           <StarFilled style={{ fontSize: "10px", color: "yellow" }} />
           <span style={{ padding: "0 3px" }}>|</span>{" "}
-          <span>Solded {solded || 1000}+</span>
+          <span>Solded {solded || 0}+</span>
         </WrapperReportText>
         <WrapperPriceText>
           {convertPrice(price)}

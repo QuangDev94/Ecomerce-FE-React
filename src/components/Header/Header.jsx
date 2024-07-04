@@ -25,7 +25,6 @@ import { useViewport } from "../../hooks/useViewport";
 
 const Header = ({ isHiddenSearch, isHiddenCart }) => {
   const viewPort = useViewport();
-  console.log("view: ", viewPort);
   const [loading, setLoading] = useState(false);
   const [isOpenPopup, setIsOpenPopup] = useState();
   const navigate = useNavigate();

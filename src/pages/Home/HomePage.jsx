@@ -1,5 +1,5 @@
 import TypeProductComponent from "../../components/TypeProduct/TypeProductComponent";
-import { WrapperProducts, WrapperTypeProduct, WrraperContainer } from "./style";
+import { WrapperTypeProduct, WrraperContainer } from "./style";
 import SliderComponent from "../../components/Slider/SliderComponent";
 import slider1 from "../../assets/images/slider5.jpg";
 import slider2 from "../../assets/images/slider6.jpg";

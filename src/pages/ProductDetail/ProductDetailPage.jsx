@@ -6,7 +6,7 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   return (
     <>
-      <h5 style={{ fontSize: "14px", padding: "0 120px" }}>
+      <h5 style={{ fontSize: "16px", padding: "0 120px" }}>
         Home Page - Product Details
       </h5>
       <div

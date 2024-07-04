@@ -7,11 +7,15 @@ import { useLocation } from "react-router-dom";
 import * as ProductService from "../../services/ProductService";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../components/Loading/Loading";
+import { WrraperContainer } from "../Home/style";
+import { useViewport } from "../../hooks/useViewport";
 
 const TypeProductsPage = () => {
-  const limit = 5;
+  const limit = 8;
   const [page, setPage] = useState(0);
   const { state } = useLocation();
+  const viewPort = useViewport();
+
   const fetchProductType = async (type, page, limit) => {
     const res = await ProductService.getProductType(type, page, limit);
     return res.response;
@@ -27,52 +31,59 @@ const TypeProductsPage = () => {
   };
 
   return (
-    <Loading spinning={isLoading}>
-      <Row
-        style={{
-          padding: "0 120px",
-          background: "#efefef",
-          flexWrap: "nowrap",
-          paddingTop: "10px",
-          height: "100vh",
-        }}>
-        <WrapperNavbar span={4}>
-          <NavbarComponent />
-        </WrapperNavbar>
-        <Col span={20}>
-          <WrapperProductsType>
-            {products?.data?.map((product) => {
-              return (
-                <CardComponent
-                  key={product._id}
-                  id={product._id}
-                  name={product.name}
-                  price={product.price}
-                  image={product.image}
-                  rating={product.rating}
-                  type={product.type}
-                  description={product.description}
-                  countInStock={product.countInStock}
-                  discount={product.discount}
-                  solded={product.solded}
-                />
-              );
-            })}
-          </WrapperProductsType>
-          <Pagination
-            defaultCurrent={1}
-            pageSize={limit}
-            total={products?.total}
+    <>
+      <h5 style={{ fontSize: "16px", background: "#fff", textAlign: "center" }}>
+        {`Home Page - Products ${state}`}
+      </h5>
+      <WrraperContainer style={{ background: "#efefef" }}>
+        <Loading spinning={isLoading}>
+          <Row
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onChange={onChangePagination}
-          />
-        </Col>
-      </Row>
-    </Loading>
+              flexWrap: "nowrap",
+              paddingTop: "10px",
+              paddingBottom: "60px",
+            }}>
+            <WrapperNavbar
+              span={4}
+              style={{ display: `${viewPort.width < 770 ? "none" : ""}` }}>
+              <NavbarComponent />
+            </WrapperNavbar>
+            <Col span={20}>
+              <Row>
+                {products?.data?.map((product) => {
+                  return (
+                    <CardComponent
+                      key={product._id}
+                      id={product._id}
+                      name={product.name}
+                      price={product.price}
+                      image={product.image}
+                      rating={product.rating}
+                      type={product.type}
+                      description={product.description}
+                      countInStock={product.countInStock}
+                      discount={product.discount}
+                      solded={product.solded}
+                    />
+                  );
+                })}
+              </Row>
+              <Pagination
+                defaultCurrent={1}
+                pageSize={limit}
+                total={products?.total}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onChange={onChangePagination}
+              />
+            </Col>
+          </Row>
+        </Loading>
+      </WrraperContainer>
+    </>
   );
 };
 
