@@ -243,7 +243,7 @@ const ProfilePage = () => {
               onClick={handleUpdateCity}
             />
           </WrapperInput>
-          <WrapperInput>
+          <WrapperInput style={{ flexWrap: "wrap" }}>
             <WrapperLabel htmlFor="avatar">Avatar</WrapperLabel>
             <WrapperUploadFile onChange={handleOnChangeAvatar} maxCount={1}>
               <Button icon={<UploadOutlined />}>Click to Upload</Button>

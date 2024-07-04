@@ -20,7 +20,7 @@ export const WrapperContent = styled.div`
 `;
 
 export const WrapperLabel = styled.label`
-  width: 60px;
+  min-width: 40px;
   color: #000;
   font-size: 12px;
   font-weight: 600;
@@ -28,6 +28,7 @@ export const WrapperLabel = styled.label`
 
 export const WrapperInput = styled.div`
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 20px;
 `;

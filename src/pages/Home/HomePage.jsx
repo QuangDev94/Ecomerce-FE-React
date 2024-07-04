@@ -44,7 +44,7 @@ const HomePage = () => {
   });
   return (
     <>
-      <div style={{ padding: "0 120px" }}>
+      <div>
         <Loading spinning={isLoadingType}>
           <WrapperTypeProduct>
             {types?.map((item) => {

@@ -7,12 +7,16 @@ export const WrraperContainer = styled.div`
   @media only screen and (max-width: 1531px) {
     padding: 0 30px;
   }
+
+  @media only screen and (max-width: 500px) {
+    padding: 0 5px;
+  }
 `;
 
 export const WrapperTypeProduct = styled.div`
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 14px;
   justify-content: center;
   border-bottom: 1px solid #eee;
   font-size: 16px;
