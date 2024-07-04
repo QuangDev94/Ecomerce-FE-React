@@ -8,26 +8,24 @@ import {
   WrapperStyleHeader,
 } from "./style";
 
-import { useSelector } from "react-redux";
 import Loading from "../../components/Loading/Loading";
 import { useLocation } from "react-router-dom";
 import { orderContant } from "../../contant";
 import { convertPrice } from "../../utils";
+import { WrraperContainer } from "../Home/style";
+import { useViewport } from "../../hooks/useViewport";
 
 const OrderSuccessPage = () => {
-  const order = useSelector((state) => state.order);
-  const user = useSelector((state) => state.user);
-
   const location = useLocation();
   const { state } = location;
-  
+  const viewPort = useViewport();
+
   return (
-    <div
+    <WrraperContainer
       style={{
         background: "#f5f5fa",
         with: "100%",
-        height: "100vh",
-        padding: "0 120px",
+        height: "88vh",
       }}>
       <Loading spinning={false}>
         <div
@@ -72,7 +70,7 @@ const OrderSuccessPage = () => {
                 </div>
               </WrapperInfo>
               <WrapperStyleHeader>
-                <span style={{ display: "inline-block", width: "390px" }}>
+                <span style={{ display: "inline-block", maxWidth: "390px" }}>
                   <span> All ({state?.orders?.length} product)</span>
                 </span>
                 <div
@@ -80,7 +78,8 @@ const OrderSuccessPage = () => {
                     flex: 1,
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-end",
+                    gap: "20px",
                   }}>
                   <span>Unit price</span>
                   <span>Quantity</span>
@@ -93,7 +92,7 @@ const OrderSuccessPage = () => {
                     <WrapperItemOrder key={order.product}>
                       <div
                         style={{
-                          width: "390px",
+                          maxWidth: "390px",
                           display: "flex",
                           alignItems: "center",
                           gap: 4,
@@ -101,14 +100,14 @@ const OrderSuccessPage = () => {
                         <img
                           src={order?.image}
                           style={{
-                            width: "77px",
+                            width: `${viewPort.width < 688 ? "0" : "77px"}`,
                             height: "79px",
                             objectFit: "cover",
                           }}
                         />
                         <div
                           style={{
-                            width: 260,
+                            maxWidth: 260,
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             whiteSpace: "nowrap",
@@ -121,14 +120,19 @@ const OrderSuccessPage = () => {
                           flex: 1,
                           display: "flex",
                           alignItems: "center",
-                          justifyContent: "space-between",
+                          justifyContent: "flex-end",
+                          gap: "40px",
                         }}>
                         <span>
                           <span style={{ fontSize: "13px", color: "#242424" }}>
                             {convertPrice(order?.price)}
                           </span>
                         </span>
-                        <InputNumber value={order?.amount} disabled />
+                        <InputNumber
+                          value={order?.amount}
+                          disabled
+                          style={{ width: "50px" }}
+                        />
                         <span
                           style={{
                             color: "rgb(255, 66, 78)",
@@ -171,7 +175,7 @@ const OrderSuccessPage = () => {
           </div>
         </div>
       </Loading>
-    </div>
+    </WrraperContainer>
   );
 };
 
