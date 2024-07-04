@@ -3,7 +3,13 @@ import React from "react";
 const LikeButtonComponent = (props) => {
   const { dataHref } = props;
   return (
-    <div style={{ marginTop: "8px" }}>
+    <div
+      style={{
+        marginTop: "8px",
+        display: "block",
+        maxWidth: "400px",
+        overflow: "hidden",
+      }}>
       <div
         className="fb-like"
         data-href={dataHref}

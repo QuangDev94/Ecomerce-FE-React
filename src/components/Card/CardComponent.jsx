@@ -32,10 +32,6 @@ const CardComponent = (props) => {
         flex: "100%",
         offset: 1,
       }}
-      // sm={{
-      //   flex: "45%",
-      //   offset: 1,
-      // }}
       md={{
         flex: "40%",
         offset: 1,
@@ -78,7 +74,7 @@ const CardComponent = (props) => {
           <span>{rating}</span>{" "}
           <StarFilled style={{ fontSize: "10px", color: "yellow" }} />
           <span style={{ padding: "0 3px" }}>|</span>{" "}
-          <span>Solded {solded || 0}+</span>
+          <span>Solded {solded || 0}</span>
         </WrapperReportText>
         <WrapperPriceText>
           {convertPrice(price)}

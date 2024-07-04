@@ -22,6 +22,7 @@ import { resetUser } from "../../redux/slices/userSlice";
 import Loading from "../Loading/Loading";
 import { searchProduct } from "../../redux/slices/productSlice";
 import { useViewport } from "../../hooks/useViewport";
+import { resetOrder } from "../../redux/slices/orderSlice";
 
 const Header = ({ isHiddenSearch, isHiddenCart }) => {
   const viewPort = useViewport();
@@ -36,6 +37,7 @@ const Header = ({ isHiddenSearch, isHiddenCart }) => {
     setLoading(true);
     await UserService.logOut();
     dispatch(resetUser());
+    dispatch(resetOrder());
     navigate("/");
     setLoading(false);
   };

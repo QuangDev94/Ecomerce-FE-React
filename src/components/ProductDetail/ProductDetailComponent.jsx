@@ -1,8 +1,4 @@
 import { Col, Image, InputNumber, Rate, Row } from "antd";
-import imageProductSmall1 from "../../assets/productsSmall/productSmall1.png";
-import imageProductSmall2 from "../../assets/productsSmall/productSmall2.png";
-import imageProductSmall3 from "../../assets/productsSmall/productSmall3.png";
-import imageProductSmall4 from "../../assets/productsSmall/productSmall4.png";
 import {
   WrapperAddress,
   WrapperNameProduct,
@@ -30,9 +26,9 @@ import CommentFbComponent from "../CommentFb/CommentFbComponent.jsx";
 
 const ProductDetailComponent = ({ idProduct }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const order = useSelector((state) => state.order);
-  const navigate = useNavigate();
   const location = useLocation();
   const [quantity, setQuantity] = useState(1);
   useEffect(() => {
@@ -80,15 +76,41 @@ const ProductDetailComponent = ({ idProduct }) => {
   };
   return (
     <Loading spinning={isLoading}>
-      <Row style={{ background: "#fff", borderRadius: "4px", padding: "10px" }}>
-        <Col span={10}>
+      <Row
+        style={{
+          background: "#fff",
+          borderRadius: "4px",
+          padding: "20px 10px",
+          flex: "wrap",
+        }}>
+        <Col
+          xs={{
+            flex: "100%",
+            offset: 1,
+          }}
+          md={{
+            flex: "80%",
+            offset: 1,
+          }}
+          lg={{
+            flex: "60%",
+            offset: 1,
+          }}
+          xl={{
+            flex: "40%",
+            offset: 1,
+          }}
+          style={{ margin: 0, marginBottom: "20px" }}>
           <Image
             src={productDetails?.data?.image}
             alt="image product main"
             preview={false}
-            style={{ border: "1px solid #ccc", borderRadius: "5px" }}
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+            }}
           />
-          <Row style={{ paddingTop: "10px" }}>
+          {/* <Row style={{ paddingTop: "10px" }}>
             <Col span={4}>
               <WrapperPictureSmall
                 src={imageProductSmall1}
@@ -131,22 +153,25 @@ const ProductDetailComponent = ({ idProduct }) => {
                 preview={false}
               />
             </Col>
-          </Row>
+          </Row> */}
         </Col>
-        <Col span={14} style={{ padding: "0 20px" }}>
+        <Col style={{ padding: "0 20px" }}>
           <WrapperNameProduct>{productDetails?.data?.name}</WrapperNameProduct>
           <WrapperTextSolded>
             <Rate disabled value={productDetails?.data?.rating} />
-            <span> | Solded 1000+</span>
+            <span> | Solded {productDetails?.data?.solded}</span>
           </WrapperTextSolded>
           <WrapperProductPrice>
             <WrapperTextPrice>
-              {convertPrice(productDetails?.data?.price)}
+              Price: {convertPrice(productDetails?.data?.price)}
             </WrapperTextPrice>
           </WrapperProductPrice>
           <WrapperAddress>
             <span>Send To </span>
-            <span className="address">{user?.address}</span>-{" "}
+            <span className="address">
+              {user?.address}, {user?.city || ""}
+            </span>
+            -{" "}
             <span
               className="change-address"
               onClick={() => navigate("/profile-user")}
@@ -162,7 +187,9 @@ const ProductDetailComponent = ({ idProduct }) => {
             }
           />
           <WrapperProducQuality>
-            <div style={{ marginTop: "10px" }}>Quality: </div>
+            <div style={{ marginTop: "10px", fontWeight: "bold" }}>
+              Quality:{" "}
+            </div>
             <div style={{ margin: "10px 0" }}>
               <InputNumber
                 min={1}
@@ -172,7 +199,13 @@ const ProductDetailComponent = ({ idProduct }) => {
               />
             </div>
           </WrapperProducQuality>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              marginBottom: "20px",
+            }}>
             <ButtonComponent
               size={20}
               styleButton={{
@@ -190,29 +223,17 @@ const ProductDetailComponent = ({ idProduct }) => {
               }}
               onClick={handleBuyProduct}
             />
-            <ButtonComponent
-              size={20}
-              styleButton={{
-                background: "#fff",
-                height: "48px",
-                width: "220px",
-                border: "1px solid rgb(13,92,182)",
-                borderRadius: "4px",
-              }}
-              textButton="Buy Price Affter"
-              styleTextButton={{ color: "rgb(13,92,182)", fontSize: "15px" }}
-            />
           </div>
         </Col>
-        <CommentFbComponent
-          dataHref={
-            process.env.REACT_APP_IS_LOCAL
-              ? "https://developers.facebook.com/docs/plugins/comments#configurator"
-              : window.location.href
-          }
-          width="100%"
-        />
       </Row>
+      <CommentFbComponent
+        dataHref={
+          process.env.REACT_APP_IS_LOCAL
+            ? "https://developers.facebook.com/docs/plugins/comments#configurator"
+            : window.location.href
+        }
+        width="100%"
+      />
     </Loading>
   );
 };

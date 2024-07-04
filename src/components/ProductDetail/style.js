@@ -9,9 +9,10 @@ export const WrapperPictureSmall = styled(Image)`
 export const WrapperNameProduct = styled.h1`
   color: rgb(36, 36, 36);
   font-size: 24px;
-  font-weight: 300;
+  font-weight: bold;
   line-height: 32px;
   word-break: break-word;
+  margin-top: 0;
 `;
 
 export const WrapperTextSolded = styled.span`
@@ -26,13 +27,14 @@ export const WrapperProductPrice = styled.div`
 `;
 
 export const WrapperTextPrice = styled.h1`
-  font-size: 32px;
+  font-size: 22px;
   line-height: 40px;
   margin-right: 8px;
   font-weight: 500;
 `;
 
 export const WrapperAddress = styled.div`
+  margin-bottom: 20px;
   span.address {
     text-decoration: underline;
     font-size: 15px;
