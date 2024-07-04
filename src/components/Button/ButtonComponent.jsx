@@ -1,5 +1,5 @@
-import { Button } from "antd";
 import React from "react";
+import { WrapperButtonComponent } from "./style";
 
 const ButtonComponent = ({
   size,
@@ -9,9 +9,9 @@ const ButtonComponent = ({
   ...rest
 }) => {
   return (
-    <Button size={size} style={styleButton} {...rest}>
+    <WrapperButtonComponent size={size} style={styleButton} {...rest}>
       <span style={styleTextButton}>{textButton}</span>
-    </Button>
+    </WrapperButtonComponent>
   );
 };
 

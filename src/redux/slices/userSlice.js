@@ -20,6 +20,7 @@ export const userSlice = createSlice({
     updateUser: (state, action) => {
       const {
         _id = "",
+        id = "",
         name = "",
         email = "",
         phone = "",
@@ -30,7 +31,7 @@ export const userSlice = createSlice({
         access_token,
         refresh_token,
       } = action.payload;
-      state.id = _id;
+      state.id = _id || id;
       state.email = email;
       state.name = name;
       state.phone = phone;

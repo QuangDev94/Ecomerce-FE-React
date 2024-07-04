@@ -9,8 +9,9 @@ export const WrapperHeader = styled.h1`
 
 export const WrapperContent = styled.div`
   border: 1px solid #ccc;
-  width: 700px;
+  max-width: 700px;
   margin: 0 auto;
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
   padding: 20px;
