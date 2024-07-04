@@ -10,6 +10,7 @@ import {
 } from "./style";
 
 import ButtonComponent from "../../components/Button/ButtonComponent";
+import { WrraperContainer } from "../Home/style";
 import { useDispatch, useSelector } from "react-redux";
 import { convertPrice } from "../../utils";
 import { useMemo } from "react";
@@ -254,12 +255,11 @@ const PaymentPage = () => {
     }
   }, []);
   return (
-    <div
+    <WrraperContainer
       style={{
         background: "#f5f5fa",
         with: "100%",
-        height: "100vh",
-        padding: "0 120px",
+        height: "88vh",
       }}>
       <Loading spinning={isLoadingAddOrder}>
         <div
@@ -280,7 +280,9 @@ const PaymentPage = () => {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "20px",
+              justifyContent: "center",
               paddingTop: "20px",
             }}>
             <WrapperLeft>
@@ -500,7 +502,7 @@ const PaymentPage = () => {
           </Loading>
         </Modal>
       </Loading>
-    </div>
+    </WrraperContainer>
   );
 };
 

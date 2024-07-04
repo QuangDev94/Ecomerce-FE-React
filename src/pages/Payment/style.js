@@ -15,7 +15,8 @@ export const WrapperStyleHeader = styled.div`
 `;
 
 export const WrapperLeft = styled.div`
-  width: 910px;
+  
+  max-width: 910px;
 `;
 
 export const WrapperListOrder = styled.div``;
@@ -44,7 +45,6 @@ export const WrapperCountOrder = styled.div`
 
 export const WrapperRight = styled.div`
   width: 320px;
-  margin-left: 20px;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -53,6 +53,7 @@ export const WrapperRight = styled.div`
 `;
 
 export const WrapperInfo = styled.div`
+  text-align: center;
   padding: 17px 20px;
   border-bottom: 1px solid #f5f5f5;
   background: #fff;
@@ -80,7 +81,7 @@ export const WrapperRadio = styled(Radio.Group)`
   margin-top: 6px;
   background: rgb(240, 248, 255);
   border: 1px solid rgb(194, 225, 255);
-  width: 500px;
+  min-width: 300px;
   border-radius: 4px;
   height: 100px;
   padding: 16px;
