@@ -14,9 +14,11 @@ import * as UserService from "../../services/UserService";
 import { useMutationHooks } from "../../hooks/useMutationHook";
 import Loading from "../../components/Loading/Loading";
 import * as message from "../../components/Message/Message";
+import { useViewport } from "../../hooks/useViewport";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const view = useViewport();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -54,6 +56,7 @@ const SignUpPage = () => {
           borderRadius: "8px",
           background: "#fff",
           display: "flex",
+          margin: "0 20px",
         }}>
         <WrapperLeftContainer>
           <h1 style={{ fontSize: "26px", margin: "0px" }}>Wellcome</h1>
@@ -113,7 +116,10 @@ const SignUpPage = () => {
             </WrapperTextLight>{" "}
           </p>
         </WrapperLeftContainer>
-        <WrapperRightContainer>
+        <WrapperRightContainer
+          style={{
+            display: `${view.width < 700 ? "none" : ""}`,
+          }}>
           <Image src={SignInImage} preview={false} height={203} width={203} />
           <h4
             style={{

@@ -17,16 +17,17 @@ import * as message from "../../components/Message/Message";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
+import { useViewport } from "../../hooks/useViewport";
 
 const SignInPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const view = useViewport();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const mutation = useMutationHooks((data) => UserService.loginUser(data));
   const { data, isPending, isSuccess, isError } = mutation;
-  console.log("data: ", data);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isSuccess && data?.status === "OK") {
@@ -87,6 +88,7 @@ const SignInPage = () => {
           borderRadius: "8px",
           background: "#fff",
           display: "flex",
+          margin: "0 20px",
         }}>
         <WrapperLeftContainer>
           <h1 style={{ fontSize: "26px", margin: "0px" }}>Wellcome</h1>
@@ -143,7 +145,10 @@ const SignInPage = () => {
             </WrapperTextLight>{" "}
           </p>
         </WrapperLeftContainer>
-        <WrapperRightContainer>
+        <WrapperRightContainer
+          style={{
+            display: `${view.width < 700 ? "none" : ""}`,
+          }}>
           <Image src={SignInImage} preview={false} height={203} width={203} />
           <h4
             style={{
