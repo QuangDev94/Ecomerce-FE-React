@@ -18,6 +18,7 @@ import { orderContant } from "../../contant";
 import { convertPrice } from "../../utils";
 import { useMemo } from "react";
 import Loading from "../../components/Loading/Loading";
+import { WrraperContainer } from "../Home/style";
 
 const DetailsOrderPage = () => {
   const params = useParams();
@@ -49,18 +50,13 @@ const DetailsOrderPage = () => {
 
   return (
     <Loading spinning={isLoading}>
-      <div
+      <WrraperContainer
         style={{
           background: "#f5f5fa",
           with: "100%",
+          paddingBottom: "20px",
         }}>
-        <div
-          style={{
-            background: "#f5f5fa",
-            with: "100%",
-            height: "100vh",
-            padding: "0 120px",
-          }}>
+        <div>
           <h4
             style={{
               fontWeight: "bold",
@@ -72,7 +68,7 @@ const DetailsOrderPage = () => {
           </h4>
           <WrapperHeaderUser>
             <WrapperInfoUser>
-              <WrapperLabel>User Address : </WrapperLabel>
+              <WrapperLabel>User Address</WrapperLabel>
               <WrapperContentInfo>
                 <div className="name-info">
                   <span>Name: </span> {data?.shippingAddress?.fullName}
@@ -119,7 +115,7 @@ const DetailsOrderPage = () => {
                 alignItems: "center",
                 justifyContent: "space-between",
               }}>
-              <div style={{ width: "670px" }}>Product: </div>
+              <div style={{ maxWidth: "670px", width: 140 }}>Product: </div>
               <WrapperItemLabel>Price</WrapperItemLabel>
               <WrapperItemLabel>Amount</WrapperItemLabel>
               <WrapperItemLabel>Discount</WrapperItemLabel>
@@ -140,7 +136,7 @@ const DetailsOrderPage = () => {
                     />
                     <div
                       style={{
-                        width: 260,
+                        maxWidth: 600,
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
@@ -179,7 +175,7 @@ const DetailsOrderPage = () => {
             </WrapperAllPrice>
           </WrapperStyleContent>
         </div>
-      </div>
+      </WrraperContainer>
     </Loading>
   );
 };

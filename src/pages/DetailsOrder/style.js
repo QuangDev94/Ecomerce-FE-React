@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const WrapperHeaderUser = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
 `;
 
 export const WrapperInfoUser = styled.div`
@@ -56,25 +58,26 @@ export const WrapperStyleContent = styled.div`
 
 export const WrapperProduct = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 10px;
 `;
 
 export const WrapperNameProduct = styled.div`
   display: flex;
   align-items: flex-start;
-  width: 670px;
+  max-width: 670px;
 `;
 
 export const WrapperItem = styled.div`
-  width: 200px;
+  max-width: 200px;
   font-weight: bold;
   &:last-child {
     color: red;
   }
 `;
 export const WrapperItemLabel = styled.div`
-  width: 200px;
+  max-width: 200px;
   &:last-child {
     font-weight: bold;
   }
