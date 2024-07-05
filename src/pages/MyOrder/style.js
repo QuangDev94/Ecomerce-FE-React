@@ -37,7 +37,8 @@ export const WrapperLeft = styled.div`
 
 export const WrapperListOrder = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
   padding-top: 20px;
 `;
@@ -65,8 +66,7 @@ export const WrapperItemOrder = styled.div`
   background: #fff;
   margin-top: 12px;
   flex-direction: column;
-  width: 950px;
-  margin: 0 auto;
+  max-width: 950px;
   background: #fff;
   border-radius: 6px;
   box-shadow: 0 12px 12px #ccc;

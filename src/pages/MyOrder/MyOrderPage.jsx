@@ -16,6 +16,7 @@ import ButtonComponent from "../../components/Button/ButtonComponent";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMutationHooks } from "../../hooks/useMutationHook";
 import * as message from "../../components/Message/Message";
+import { WrraperContainer } from "../Home/style";
 
 const MyOrderPage = () => {
   const location = useLocation();
@@ -103,7 +104,7 @@ const MyOrderPage = () => {
           />
           <div
             style={{
-              width: 260,
+              maxWidth: 260,
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
@@ -121,15 +122,14 @@ const MyOrderPage = () => {
   };
 
   return (
-    <Loading spinning={isLoading || isLoadingCancel}>
-      <WrapperContainer>
-        <div
-          style={{
-            background: "#f5f5fa",
-            with: "100%",
-            height: "100vh",
-            padding: "0 120px",
-          }}>
+    <WrraperContainer
+      style={{
+        background: "#f5f5fa",
+        with: "100%",
+        paddingBottom: "40px",
+      }}>
+      <Loading spinning={isLoading || isLoadingCancel}>
+        <div>
           <h4
             style={{
               fontWeight: "bold",
@@ -223,8 +223,8 @@ const MyOrderPage = () => {
             })}
           </WrapperListOrder>
         </div>
-      </WrapperContainer>
-    </Loading>
+      </Loading>
+    </WrraperContainer>
   );
 };
 
