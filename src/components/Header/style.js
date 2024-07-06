@@ -8,7 +8,7 @@ export const WrapperHeader = styled(Row)`
     padding: 10px 30px;
   }
   @media only screen and (max-width: 500px) {
-    padding: 10px 0;
+    padding: 10px 5px;
   }
   background-color: #f14040;
   align-items: center;
@@ -38,6 +38,9 @@ export const WrapperHeaderAcount = styled.div`
 export const WrapperHeaderCart = styled.div`
   display: flex;
   flex-direction: column;
+  @media only screen and (max-width: 700px) {
+    flex-direction: row;
+  }
   align-items: center;
   color: #fff;
   padding-left: 10px;

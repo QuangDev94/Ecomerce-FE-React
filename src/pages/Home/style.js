@@ -15,12 +15,13 @@ export const WrraperContainer = styled.div`
 
 export const WrapperTypeProduct = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 14px;
   justify-content: center;
   border-bottom: 1px solid #eee;
   font-size: 16px;
-  height: 44px;
+  padding: 10px 0;
 `;
 
 export const WrapperButtonMore = styled(ButtonComponent)`
