@@ -188,7 +188,7 @@ const MyOrderPage = () => {
                       </span>
                     </div>
                     <div style={{ display: "flex", gap: "10px" }}>
-                      <ButtonComponent
+                      {/* <ButtonComponent
                         onClick={() => handleCanceOrder(order)}
                         size={40}
                         styleButton={{
@@ -201,7 +201,7 @@ const MyOrderPage = () => {
                           color: "#9255FD",
                           fontSize: "14px",
                         }}
-                      />
+                      /> */}
                       <ButtonComponent
                         onClick={() => handleDetailsOrderClick(order._id)}
                         size={40}
