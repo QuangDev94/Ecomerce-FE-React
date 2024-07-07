@@ -30,7 +30,6 @@ const CardComponent = (props) => {
     <Col
       xs={{
         flex: "100%",
-        offset: 1,
       }}
       md={{
         flex: "40%",
@@ -56,7 +55,13 @@ const CardComponent = (props) => {
             padding: "10px",
           },
         }}
-        cover={<img alt="example" src={image} style={{ height: 230 }} />}
+        cover={
+          <img
+            alt="example"
+            src={image}
+            style={{ height: 230, minWidth: "242px" }}
+          />
+        }
         onClick={() => navigate(`/product-detail/${id}`)}>
         <img
           src={tick}

@@ -43,12 +43,10 @@ const TypeProductsPage = () => {
               paddingTop: "10px",
               paddingBottom: "60px",
             }}>
-            <WrapperNavbar
-              span={4}
-              style={{ display: `${viewPort.width < 770 ? "none" : ""}` }}>
+            <WrapperNavbar span={viewPort.width < 770 ? 0 : 4}>
               <NavbarComponent />
             </WrapperNavbar>
-            <Col span={20}>
+            <Col span={viewPort.width < 770 ? 24 : 20}>
               <Row>
                 {products?.data?.map((product) => {
                   return (
